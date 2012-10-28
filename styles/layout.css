@@ -1,0 +1,549 @@
+/* Artfully masterminded by ZURB  */
+
+/* -------------------------------------------------- 
+   Table of Contents
+-----------------------------------------------------
+:: Shared Styles
+:: Page Name 1
+:: Page Name 2
+*/
+
+
+/* -----------------------------------------
+   Shared Styles
+----------------------------------------- */
+body {
+	background-image:url(../images/bodyBg.jpg);
+	background-repeat:no-repeat;
+	background-position:top center;
+	width:100%;
+	position:relative;
+}
+.container {
+	overflow:hidden;
+}
+.r {
+	float:right;
+	padding:0 0 10px 20px;
+}
+.main {
+	width:786px;
+	margin:0 auto;
+	max-width:100%;
+}
+header {
+	margin:32px 0 40px;
+}
+.cols_l {
+	position:absolute;
+	top:32px;
+	left:34px;
+}
+.cols_r {
+	position:absolute;
+	top:53px;
+	right:34px;
+}
+.cols_r p {
+	font-size:18px;
+}
+.middle {
+	overflow:hidden;
+}
+.middle h1 {
+	text-align:center;
+	margin:0;
+}
+.control_cols {
+	width:auto;
+	max-width:100%;
+	float:left;
+	margin: 0 15px;
+}
+#entryForm .control_cols_xlarge {
+	width:524px;
+}
+#entryForm .control_cols_smallInput{
+	width:232px;
+}
+#entryForm fieldset.btn {
+	margin-bottom:0;
+	overflow:hidden;
+}
+div.buttonWrap {
+	margin:20px 0 0;
+	float:right;
+}
+#entryForm fieldset div.buttonWrap input,
+div.buttonWrap a  {
+	float:left;
+	margin:0 0 0 15px;
+}
+#entryForm fieldset div.buttonWrap input.back, .back {
+	background-image:url(../images/prev-arrow.png);
+	background-repeat:no-repeat;
+	background-position:14px 14px;
+}
+#entryForm fieldset div.buttonWrap input.back:hover, .back:hover {
+	background-position:14px 14px;
+}
+#entryForm fieldset div.buttonWrap input.next, .next {
+	background-image:url(../images/next-arrow.png);
+	background-repeat:no-repeat;
+	background-position:95px 14px;
+}
+#entryForm fieldset div.buttonWrap input.next:hover, .next:hover {
+	background-position:95px 14px;
+}
+#entryForm fieldset .checkboxes {
+	margin:8px 0 20px;
+	overflow:hidden;
+}
+#entryForm fieldset .checkboxes div {
+	float:left;
+	margin:0 7px 0 0;
+}
+.checkbox {
+	background:url(../images/checkbox.png) no-repeat 0 0;
+	width: 30px;
+	height: 30px;
+	display: block;
+	clear: left;
+	float: left;
+}
+
+.radio {
+	background:url(../images/radioBox.png) no-repeat 0 0;
+	width: 30px;
+	height: 30px;
+	display: block;
+	clear: left;
+	float: left;
+}
+
+#entryForm fieldset label,
+.partnerName label,
+.productList label {
+	font:normal 18px/30px Arial, Helvetica, sans-serif;
+	color:#404040;
+	float:left;
+}
+#entryForm fieldset .checkboxes label,
+.partnerName label {
+	float:none;
+	margin:0 0 0 35px;
+}
+#entryForm .control_cols input[type=text].input-min {
+	float:left;
+	width:80px;
+	margin:0 10px 0 0;
+	max-width:100%;
+}
+#entryForm .control_cols input[type=text].input-medium {
+	width:152px;
+	max-width:100%;
+}
+
+#entryForm fieldset label.unikLable {
+	margin:9px 5px;
+}
+.main h2 {
+	margin:0 0 38px 15px !important;
+}
+.main p {
+	font:normal 18px/30px Arial, Helvetica, sans-serif;
+	color:#404040;
+	margin:0;
+	padding-left:45px;
+}
+.common div {
+	overflow:hidden;
+	padding:8px 0;
+}
+input.input-medium-size {
+	width:308px;
+	margin:-8px 0 0 46px;
+}
+.button {
+	font-weight:normal;
+	padding:0;
+	box-shadow:none;
+}
+div.commonBtnWrap {
+	position:fixed;
+	bottom:35px;
+	right:95px;
+}
+.partnerName, .area {
+	/*margin:115px auto 0;*/
+	overflow:hidden;
+}
+.partnerName h2 {
+	margin:0 0 20px;
+	text-align:center;
+}
+div.checkLeft {
+	margin:8px 0 0 85px;
+}
+div.checkRight {
+	margin:8px 0 0;
+}
+.partnerName div.checkLeft label,
+.partnerName div.checkRight label,
+.wrapCol div label {
+	margin-left:45px;
+}
+.wrapCol {
+	margin:10px auto 0;
+	/* width:510px; */
+	width:650px;
+}
+.wrapCol div {
+	margin-bottom:18px;
+}
+.wrapCol div input[type=text] {
+	margin:0;
+}
+/*.area h2 {
+	margin:0 0 0 180px;
+	text-align:left;
+}*/
+.productList h2 {
+	margin-bottom:50px;
+}
+.productList {
+	width:880px;
+	margin:0 auto;
+}
+.productList .twelve {
+	padding:0;
+}
+.productList, .proWrap {
+	overflow:hidden;
+}
+.productList .four div {
+	margin-bottom:12px;
+	overflow:hidden;
+}
+.productList .four div label {
+	font-size:15px;
+	font-weight:bold;
+	margin-left:10px;
+}
+.productList h2 {
+	text-align:center;
+}
+.resources {
+	background-color:#132a22;
+	padding:15px;
+	-moz-border-radius:4px;
+	-webkit-border-radius:4px;
+	border-radius:4px;
+	width:460px;
+	margin:20px auto 0;
+	display: none;
+}
+.resources h3 {
+	margin:0 0 12px;
+	color:#c9c9cb;
+	font-size:22px;
+}
+.resources ul li {
+	font:normal 18px/20px Arial, Helvetica, sans-serif;
+	margin-bottom:12px;
+}
+.resources ul li a {
+	background:url(../images/icons.jpg) no-repeat 0 0;
+	padding:0 0 0 30px;
+	color:#FFF;
+}
+.resources ul {
+	margin:0;
+}
+.resources ul li a.vids {
+	background-position:0 0;
+}
+.resources ul li a.pdf {
+	background-position:0 -24px
+}
+.resources ul li a.switch {
+	background-position:0 -51px
+}
+/* -----------------------------------------
+   Panel Driver
+----------------------------------------- */
+.panelDriver a.leftPanel {
+	background:url(../images/panel.png) no-repeat 0 0;
+	height:198px;
+	width:42px;
+}
+.panelDriver a.leftPanel {
+	background-position:0 0;
+	position:absolute;
+	left:0;
+	top:120px;
+}
+.panelDriver a.rightPanel {
+	background:url(../images/panel.png) no-repeat 0 -198px;
+	position:absolute;
+	height:198px;
+	width:42px;
+	right:0;
+	top:120px;
+}
+.panelDriver a.active_l {
+	left:650px;
+}
+.panelDriver a.active_r {
+	right:650px;
+}
+
+
+/* -----------------------------------------
+   slideContent
+----------------------------------------- */
+.overviewCont {
+	background:rgba(0, 0, 0, 0.87);
+	padding:25px;
+	width:650px;
+	-moz-border-radius:0 5px 5px 0;
+	-webkit-border-radius:0 5px 5px 0;
+	border-radius:0 5px 5px 0;
+	position: fixed;
+	top: 120px;
+	left:-650px;
+	z-index:1000;
+	min-height:450px;
+}
+.overviewCont ul {
+	margin:0;
+	overflow-y:auto;
+	overflow-x:hidden;
+	height:442px;
+}
+.overviewCont ul li {
+	font:normal 15px/18px Arial, Helvetica, sans-serif;
+	margin-bottom:20px;
+	padding:0 0 0 20px;
+}
+.overviewCont ul li a {
+	color:#f5f5f5;
+}
+.overviewCont ul li a.active {
+	background:url(../images/success-check.png) no-repeat left center;
+	color:#8fc13d;
+	padding:0 0 0 20px;
+	position:relative;
+	left:-20px;
+}
+/* -------------------------------------
+ comments
+-------------------------------------- */
+.comments {
+	background:rgba(0, 0, 0, 0.87);
+	padding:25px;
+	width:650px;
+	-moz-border-radius:5px 0 0 5px;
+	-webkit-border-radius:5px 0 0 5px;
+	border-radius:5px 0 0 5px;
+	position: fixed;
+	top: 120px;
+	right:-650px;
+	z-index:1000;
+	min-height:450px;
+}
+.contentDetails, .partnerDetails {
+	height:460px;
+	width:785px;
+	overflow:auto;
+}
+.partnerDetails {
+	height:240px;
+}
+/*--------------------------------
+comment info 
+------------------------------- */
+.comtInfo {
+	overflow:hidden;
+	border-bottom:1px solid #414342;
+	margin-bottom:10px;
+	padding-bottom:6px;
+}
+.comtInfo label,
+.row2 .control_cols_xlarge label {
+	color:#b1b3b0;
+	float:left;
+	line-height:30px;
+}
+.child_l {
+	width:110px;
+}
+.child_l label {
+	margin:0 10px 0 0;
+}
+.child_l span.checkbox {
+	clear:none;
+}
+.middleChild {
+	width:250px;
+}
+.middleChild select {
+	width:100%;
+	height:30px;
+	margin:0;
+}
+.child_r {
+	margin-left:20px;
+}
+.child_r label {
+	margin-left:10px;
+}
+.row2 .control_cols {
+	margin-left:110px;
+	width:300px;
+}
+.row2 .control_cols input[type=text] {
+	background:#bec0bd;
+	padding:5px 8px;
+	width:100%;
+	margin:0 0 8px;
+}
+.row2 .control_cols_xlarge {
+	margin-left:110px;
+	clear:both;
+}
+.row2 .control_cols_xlarge label {
+	margin-left:10px;
+}
+.okBtn {
+	background:#88192c;
+	float:left;
+	color:#fff;
+	font-size:16px;
+	height:30px;
+	line-height:30px;
+	text-align:center;
+	width:83px;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	border-radius:5px;
+	margin:10px 0 0 130px;
+}
+
+#dynamicContent
+{
+    
+	/*height:440px;*/
+}
+
+/* #transitionHolder {
+	overflow-x: hidden;
+    overflow-y: auto;
+	height:440px !important;
+} */
+
+/*----------new css---*/
+.mrgTopLeft {
+	margin:10px 0 0 190px; 
+}
+
+.decimal ul li {
+	list-style:none;
+	background:#0A1608;
+	height:40px;
+	line-height:40px;
+	text-indent:18px;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	border-radius:5px;
+	-moz-opacity:0.7;
+	-webkit-opacity:0.7;
+	opacity:0.7;
+	color:#8E9093;
+	margin-bottom:5px !important;
+	font-size:18px;
+}
+
+.select{
+	position: relative;
+	margin-top:10px;
+  width: 335px;
+  padding:5px 7px 5px 15px;
+  color: #404040;
+  font: 18px/21px arial,sans-serif;
+  background: #fff;
+  overflow: hidden;
+  border:none;
+  left:200px;
+  -moz-border-radius: 4px;
+		-webkit-border-radius: 4px;
+		border-radius: 4px;
+}
+
+.option {
+	height:22px;
+}
+
+.wrapCol div {
+	float:left;
+	width:325px; /*----------width change--------*/
+}
+
+.uiSliderWidth {
+	width:530px;
+	margin:10px auto;
+}
+
+.sliderHeight {
+	height:10px !important;
+}
+
+.orderSn {
+	margin:0 10px 0 0;
+}
+
+.tableBg {
+	background:url(../images/tableBg.png) repeat;
+	padding:10px;
+	border:none;
+	color:#404040 !important;
+	font-size:18px;
+	
+}
+.tableBg tr td {font-size:18px !important;}
+
+.tableBg td { line-height:30px !important;}
+
+.textIndent { text-indent:-40px; width:85px;}
+
+.textArea {
+	position:relative;
+	width:250px !important;
+	background:none !important;
+	border-bottom:1px solid #5C685A !important;
+	border-radius:0 !important;
+	padding:0 !important;
+	bottom:2px;
+	left:50px;
+	color:#5C685A !important;
+	box-shadow:none !important;
+}
+.textArea:focus {
+	color:#404040 !important;
+	border-bottom:1px solid #212121 !important;
+}
+.textArea1 {
+	position:relative;
+	width:250px !important;
+	background:none !important;
+	border-bottom:1px solid #212121 !important;
+	border-radius:0 !important;
+	padding:0 !important;
+	bottom:2px;
+	left:0;
+}
+
+.scrollCnt {
+	overflow-y:auto;
+	overflow-x:hidden;
+}

@@ -1,0 +1,43 @@
+﻿<div id="view_contingency" data-role="Page" class="twelve columns partnerName area">
+    <div class="row">
+        <h2 id="question" data-bind="{context: 'this'}">
+            {path: 'text'}</h2>
+        <div class="twelve columns scrollCnt">
+            <div style="margin: 10px 0 0 140px;">
+                <table class="tableBg fontColor">
+                    <tr data-bind="{context:'horizontalOptions'}">
+                        <th>
+                        </th>
+                        <th class="textIndent" data-item>
+                            {path: 'text'}
+                        </th>
+                    </tr>
+                    <tbody data-bind="{context:'options'}">
+                        <tr data-item data-bind="{context:'horizontalOptions'}">
+                            <td>
+                                {path: 'text'}
+                                <input class="textArea1" type="text" id="txt{path: 'id'}" data-events="{change: '_textChanged'}" style="display:{path: 'type', func: '_getOtherDisplay'}"/>
+                            </td>
+                            <td data-item>
+                                <input class="styled" data-events="{'change': '_checkChanged'}" type="{path: 'id', func: '_getRadioOrCheck'}" id="gContingency{path: 'id', func: '_getChainedUniqueBindId'}"
+                                    name="gContingency{path: 'id', func: '_getChainedBindId'}" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div data-bind="{context: 'this'}" class="resources" style="display: {path: 'resources', func: '_getResourceDisplay'}">
+                <h3>
+                    Resources</h3>
+                <ul data-bind="{context:'resources'}">
+                    <li data-item><a href="{path: 'path'}" target="_blank" class="{path: 'type', func: '_getClassForType'}">
+                        {path: 'name'}</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

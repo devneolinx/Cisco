@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+<head>
+    <meta charset="utf-8" />
+    <!-- Set the viewport width to device width for mobile -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Welcome | Cisco Collaboration Analyst and Consultant Summit 2012</title>
+    <!-- Included CSS Files (Compressed) -->
+    <link rel="stylesheet" href="styles/foundation.min.css">
+    <link rel="stylesheet" href="styles/base.css">
+    <link rel="stylesheet" href="styles/layout.css">
+    <link rel="stylesheet" href="styles/jquery.fancybox-1.3.4.css">
+    <!-- video css -->
+    <link rel="stylesheet" href="styles/video-js.css">
+    <!-- close video css -->
+    <!--jquery-ui-css-->
+    <link rel="stylesheet" type="text/css" href="styles/jquery-ui.css"/>
+    <!--close-Jquery-ui-css-->
+    <!--jquery-ui-slider-js-->
+    
+    <!--close-jquery-ui-slider-js-->
+    <script src="scripts/libs/jquery-1.7.2.min.js" type="text/javascript"></script>
+    <script src="scripts/libs/jquery.ui/jquery-ui-1.9.0.custom.min.js" type="text/javascript"></script>
+    <script src="scripts/libs/jquery.ui/jquery.ui.touch-punch.min.js.js" type="text/javascript"></script>
+    <script type="text/javascript" src="scripts/libs/jquery.fancybox-1.3.4.pack.js"></script>
+    <script type="text/javascript" src="scripts/libs/custom-form-elements.js"></script>
+    <!-- video js -->
+    <script type="text/javascript" src="scripts/libs/video.js"></script>
+    <!-- video js close here -->
+    <script type="text/javascript" src="scripts/libs/modernizr.foundation.js"></script>
+    <script src="scripts/libs/jquery.mCustomScrollbar.js" type="text/javascript"></script>
+
+    <script src="scripts/FilesystemHelper.js" type="text/javascript"></script>
+    <!--Widgets -->
+    <script src="controllers/jquery.ui.mainController.js" type="text/javascript"></script>
+    <script src="controllers/jquery.ui.masterPage.js" type="text/javascript"></script>
+    <script src="controllers/jquery.ui.contact.js" type="text/javascript"></script>
+    <script src="controllers/questions/jquery.ui.surveyQuestionBase.js" type="text/javascript"></script>
+    <script src="controllers/questions/jquery.ui.multiSelect.js" type="text/javascript"></script>
+    <script src="scripts/jquery.ui.panelDraggable.js" type="text/javascript"></script>
+    <script src="controllers/questions/jquery.ui.singleSelect.js" type="text/javascript"></script>
+    <script src="controllers/questions/jquery.ui.dropDown.js" type="text/javascript"></script>
+    <script src="controllers/questions/jquery.ui.textInput.js" type="text/javascript"></script>
+    <script src="controllers/questions/jquery.ui.sliderQuestion.js" type="text/javascript"></script>
+    <script src="controllers/questions/jquery.ui.order.js" type="text/javascript"></script>
+    <script src="controllers/questions/jquery.ui.contingency.js" type="text/javascript"></script>
+    <script src="controllers/jquery.ui.quickJump.js" type="text/javascript"></script>
+    <script src="controllers/jquery.cisco.comment.js" type="text/javascript"></script>
+    <!--Models -->
+    <script src="models/Survey.js" type="text/javascript"></script>
+    <script src="models/answers.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        var filesystemHelper;
+        document.addEventListener("deviceready", function () { filesystemHelper = new FilesystemHelper(); }, false);
+
+        $(document).ready(function () {
+            
+            $(".video").fancybox({
+                padding: 0,
+                width: '100%',
+                autosize: false,
+                'type': 'ajax'
+            });
+
+            $(".main[data-role='MasterPage']").masterPage();           
+            //$(".main[data-role='MasterPage']").masterPage("navigateTo", "contact", null);
+
+        });
+        
+    </script>
+  
+    <!-- IE Fix for HTML5 Tags -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <header>
+                <div class="cols_l">
+                    <figure>
+                        <a href="#" title="Welcome | Cisco Collaboration Analyst and Consultant Summit 2012">
+                            <img src="images/cisco-logo.png" alt="site logo" class="scale-with-grid" width="111" height="60"/>
+                        </a>
+                    </figure>
+                </div>
+                <div class="middle">
+            	    <h1>Cisco Collaboration<br> Analyst and Consultant Summit 2012</h1>
+                </div>
+                <div class="cols_r">
+            	    <p>Location, 08.08.2012</p>
+                </div>
+            </header>
+        </div>
+        <div data-role="MasterPage" class="main">
+            <div id="dynamicContent">
+            </div>
+            <div class="buttonWrap commonBtnWrap">
+                <a id="btnBack" class="button back" href="#">Back</a> <a id="btnNext" class="button next"
+                    href="#">Next</a>
+            </div>
+        </div>
+    </div>
+    <div class="panelDriver">
+        <div class="overviewCont">
+            <ul data-bind="{context: 'questions'}">
+                <li id="quickJump0"><a href="#" class="active" data-events="{click: '_goToContact'}">Contact</a></li>
+                <li id="quickJump{path: 'id'}" data-item><a href="#" data-events="{click: '_goToQuestion'}">{path: 'text'}</a></li>
+                
+            </ul>
+            <a href="#" class="leftPanel active_l">&nbsp;</a>
+        </div>
+    </div>
+    <div class="panelDriver">
+        <div class="comments">
+            <textarea rows="15" cols="12" name="comment"></textarea>
+            <div class="commentWrap">
+                <div class="row1 comtInfo">
+                    <div class="child_l left">
+                        <label>
+                            Assign to:</label>
+                        <input type="checkbox" name="assignTo" class="styled">
+                    </div>
+                    <div class="middleChild left">
+                        <select data-bind="{context: 'salesmen'}">
+                            <option id="salesman{path: 'id'}" data-item>{path: 'name'}</option>                            
+                        </select>
+                    </div>
+                    <div class="child_r left">
+                        <input type="checkbox" name="telemarketingQualification" class="styled">
+                        <label>
+                            Telemarketing qualification</label>
+                    </div>
+                </div>
+                <div class="row2">
+                    <div class="control_cols">
+                        <input type="text" name="email" placeholder="Your eMail" required>
+                    </div>
+                    <div class="control_cols_xlarge">
+                        <input type="checkbox" name="receiveEmail" class="styled">
+                        <label>
+                            Yes, I would like to receive further infotmation from Cisco per email</label>
+                    </div>
+                    <div class="control_cols_xlarge">
+                        <a href="#" class="okBtn">Ok</a>
+                    </div>
+                </div>
+            </div>
+            <a href="#" class="rightPanel active_r">&nbsp;</a>
+        </div>
+        
+    </div>
+</body>
+</html>

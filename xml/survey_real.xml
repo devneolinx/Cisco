@@ -1,0 +1,177 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<survey>
+  <salesmen>
+    <salesman id="1">
+      <name>Salesman 1</name>      
+    </salesman>
+    <salesman id="2">
+      <name>Salesman 2</name>
+    </salesman>
+    <salesman id="3">
+      <name>Salesman 3</name>
+    </salesman>
+    <salesman id="4">
+      <name>Salesman 4</name>
+    </salesman>
+  </salesmen>
+  <questions>
+    <question id="1">
+      <type>SingleSelect</type>
+      <text>Status:</text>
+      <options>
+        <option id="1">Consultant/Contractor</option>
+        <option id="2">Distributor</option>
+        <option id="3">End User</option>
+        <option id="4">ISP/SP/ASP</option>
+        <option id="5">Integrator</option>
+        <option id="6">Networking Academy</option>
+        <option id="7">OEM</option>
+        <option id="8">Partner</option>
+        <option id="9">Reseller</option>
+        <option id="10">Training Partner</option>
+        <option id="11">None</option>
+        <option id="12" type="other">Other:</option>
+      </options>      
+    </question>
+    <question id="2">
+      <type>contingency</type>
+      <subType>MultiSelect</subType>
+      <text>What is your current area of interest? / What topics would you like to get more information on?</text>
+      <options>
+        <option id="1" type="other">Solution 1</option>
+        <option id="2" type="other">Solution 2</option>
+        <option id="3" type="other">Solution 3</option>
+        <option id="4" type="other">Solution 4</option>
+      </options>  
+      <options type="horizontal">
+        <option id="1">Intrest</option>
+        <option id="2">SendInfo</option>        
+      </options>
+    </question>
+    <question id="3">
+      <type>MultiSelect</type>
+      <text>What is your company's industry?</text>
+      <options>
+        <option id="1">Education</option>
+        <option id="2">Telecommunications</option>
+        <option id="3">Utilities & Energy</option>
+        <option id="4">Logistics & Distribution</option>
+        <option id="5">Healthcare</option>
+        <option id="6">Travel & Tourism</option>
+        <option id="7">Banking</option>
+        <option id="8">Business & Professional Services</option>
+        <option id="9">Insurance & Financial Services</option>
+        <option id="10">Manufacturing</option>
+        <option id="11">IT</option>
+        <option id="12">Government - Central</option>
+        <option id="13">Retail</option>
+        <option id="14">Government - Local</option>
+        <option id="15">Service Provider</option>
+        <option id="16" type="other">Other:</option>        
+      </options>
+    </question>
+
+    <question id="4">
+      <type>SingleSelect</type>
+      <text>How many employees are in your company?</text>
+      <options>
+        <option id="1">1-4</option>
+        <option id="2">5-19</option>
+        <option id="3">20-49</option>
+        <option id="4">50-99</option>
+        <option id="5">100-249</option>
+        <option id="6">250-499</option>
+        <option id="7">500-999</option>
+        <option id="8">1,000-4,999</option>
+        <option id="9">5,000-9,999</option>
+        <option id="10">10,000+</option>
+        
+      </options>
+    </question>
+
+    <question id="5">
+      <type>MultiSelect</type>
+      <text>What is your company's industry?</text>
+      <options>
+        <option id="1">1-4</option>
+        <option id="2">5-9</option>
+        <option id="3">10-20</option>
+        <option id="4">>20</option>       
+      </options>
+      <resources>
+        <resource id="1">
+          <type>video</type>
+          <name>Nice Video</name>
+          <path>videos/cisco-video.html</path>
+        </resource>
+        <resource id="2">
+          <type>switch</type>
+          <name>PDF doc</name>
+          <path>resources/leadform-cisco-generic-v10-120621_A4_portrait_EN.pdf</path>
+        </resource>
+        <resource id="3">
+          <type>pdf</type>
+          <name>Word doc</name>
+          <path>resources/Cisco_requirements2.docx</path>
+        </resource>
+        <resource id="3">
+          <type>switch</type>
+          <name>PPT doc</name>
+          <path>resources/presentations-tips.ppt</path>
+        </resource>
+
+      </resources>
+    </question>
+
+    <question id="6">
+      <type>SingleSelect</type>
+      <text>Do you have a preferred partner?</text>
+      <options>
+        <option id="1" type="other">yes</option>
+        <option id="2">no</option>
+       </options>
+    </question>
+
+    <question id="3">
+      <type>SingleSelect</type>
+      <text>What is your company's industry?</text>
+      <options>
+        <option id="1">0-3 months</option>
+        <option id="2">4-6 months</option>
+        <option id="3">7-12 months</option>
+        <option id="4">over 12 months</option>
+        <option id="5">unknown</option>
+        <option id="6">no plans to purchase</option>        
+      </options>
+    </question>
+
+    <question id="8">
+      <type>SingleSelect</type>
+      <text>Do you have a budget available?</text>
+      <options>
+        <option id="1" type="other">yes, budget amount:</option>
+        <option id="2">no</option>
+      </options>
+    </question>
+    <question id="9">
+      <type>MultiSelect</type>
+      <text>What are your current requirements/requests?</text>
+      <options>
+        <option id="1">Proposal requested</option>
+        <option id="2">Meeting requested</option>
+        <option id="3">Consulting requested</option>
+        <option id="4" type="other">Other:</option>
+      </options>
+    </question>      
+    <question id="10">
+      <type>SingleSelect</type>
+      <text>Follow-up urgency:</text>
+      <options>
+        <option id="1">immediate</option>
+        <option id="2">within 4 weeks</option>
+        <option id="3">after 4 weeks</option>
+      </options>
+    </question>    
+  </questions>
+  
+</survey>

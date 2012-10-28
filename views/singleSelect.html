@@ -1,0 +1,24 @@
+﻿<div id="view_singleSelect" data-role="Page" class="twelve columns partnerName area">
+        	<div class="row">
+            	<h2 id="question" data-bind="{context: 'this'}">{path: 'text'}</h2>
+                <div class="twelve columns scrollCnt">
+                	<div data-bind="{context:'options'}" class="wrapCol">
+                    	<div data-item>
+		                  	<input type="radio" id="rd{path: 'id'}" data-events="{change: '_checkChanged'}" name="singleSelect" class="styled" />
+		                    <label for="enterprice">{path:'text'}</label>
+                            <input class="textArea" type="text" id="txt{path: 'id'}" data-events="{change: '_textChanged'}" style="display:{path: 'type', func: '_getOtherDisplay'}" disabled="disabled"/>
+                        </div>                        
+                    </div>
+                 </div>
+            </div>
+	        <div class="row">
+        	<div class="twelve columns">
+	        	<div data-bind="{context: 'this'}" class="resources" style="display:{path: 'resources', func: '_getResourceDisplay'}">
+	            	<h3>Resources</h3>
+	            	<ul data-bind="{context:'resources'}">
+	            		<li data-item><a href="{path: 'path'}" target="_blank" target="_blank" class="{path: 'type', func: '_getClassForType'}">{path: 'name'}</a></li>	            		
+	            	</ul>
+	            </div>
+             </div>
+        </div>
+</div>

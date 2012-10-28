@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+    <widget xmlns = "http://www.w3.org/ns/widgets"
+        xmlns:gap = "http://phonegap.com/ns/1.0"
+        id        = "com.neolinx.cisco"
+        versionCode="1" 
+        version   = "1.0.0">
+
+    <!-- versionCode is optional and Android only -->
+
+    <name>Cisco</name>
+
+    <description>
+        Survey app to get customers feedback.
+    </description>
+
+    <author href="http//neolinx.com.np" email="dev@neolinx.com.np">
+        Neolinx
+    </author>
+
+      <icon src="icon.png" />
+</widget>
