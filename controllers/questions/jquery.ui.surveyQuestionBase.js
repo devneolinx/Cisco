@@ -63,7 +63,7 @@
                 }
                 }
                 });*/
-                console.log(JSON.stringify(survey));
+                //console.log(JSON.stringify(survey));
                 this.navigateTo("thankYou", null);
             }
             else {
