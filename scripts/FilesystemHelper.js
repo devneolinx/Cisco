@@ -10,22 +10,19 @@
             var filesQue = new Array();
             var fileSystemStatus = 0;
 
-            console.log("on request file system");
+
             window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, function () {
-                console.log("failed getting fs");
                 var func = failCB('requestFileSystem');
                 func();
                 fileSystemStatus = -1;
             });
-            function gotFS(fs) {
-                console.log("got file system");
+    function gotFS(fs) {
         fileSystem = fs;
         fileSystemStatus = 1;
     }
 
     this.getFile = function (fileName, callback) {
         var me = this;
-        console.log("on get file");
         if (fileSystemStatus == -1) {
             window.requestFileSystem(LocalFileSystem.PERSISTENT, 0
             , function (fs) { gotFS(fs); me.getFile(fileName, callback) }
@@ -69,12 +66,11 @@
         var writer = { available: false };
         var reader = { available: false }
         var entry = null;
-        console.log("creating file");
+        
         var fail = failCB('getFile');
         fileSystem.root.getFile(FILENAME, { create: true, exclusive: false },
                             gotFileEntry, fail);
         function gotFileEntry(fileEntry) {
-            console.log("got file entry");
             var fail = failCB('createWriter');
             entry = fileEntry;
             reader.available = true;
@@ -83,7 +79,6 @@
         }
 
         function gotFileWriter(fileWriter) {
-            console.log("got writer");
             writer.available = true;
             writer.object = fileWriter;
         }
@@ -93,8 +88,7 @@
         this.isWriterAvailable = function () {
             return writer.available;
         }
-        this.saveText = function (txt) {
-            console.log("on save text");
+        this.saveText = function(txt) {
             if (writer.available) {
                 writer.available = false;
                 writer.object.onwriteend = function (evt) {
@@ -107,8 +101,7 @@
             return false;
         }
 
-        this.readText = function (onReadComplete) {
-            console.log("on read text");          
+        this.readText = function(onReadComplete) {            
             var readText = ""
             if (entry) {
                 entry.file(function (dbFile) {

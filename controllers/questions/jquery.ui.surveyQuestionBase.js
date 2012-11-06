@@ -25,11 +25,11 @@
                 curQuestionIndex = this.options.questionIndex;
             }
 
-            $(".resources a", this.element).fancybox({
+            $(".resources a.video", this.element).fancybox({
                 padding: 0,
                 width: '100%',
-                autosize: false,
-                'type': 'iframe'
+                autosize: true,
+                'type': 'ajax'
             });
         },
         //destructor
@@ -50,20 +50,21 @@
             curQuestionIndex++;
             if (curQuestionIndex >= survey.questions.length) {
                 curQuestionIndex = survey.questions.length - 1;
-                filesystemHelper.getFile("result.json", function (file) {
-                    if (file) {
-                        var funcLoop = function () {
-                            if (file.isWriterAvailable()) {
-                                file.saveText("This is the first text saved using phone gap");
-                                file.readText(function (txt) { alert(txt); });
-                            }
-                            else {
-                                setTimeout(funcLoop, 100);
-                            }
-                        }
-                    }
-                });
-                alert("Congratulations, you have completed the survey");
+                /*filesystemHelper.getFile("result.json", function (file) {
+                if (file) {
+                var funcLoop = function () {
+                if (file.isWriterAvailable()) {
+                file.saveText("This is the first text saved using phone gap");
+                file.readText(function (txt) { alert(txt); });
+                }
+                else {
+                setTimeout(funcLoop, 100);
+                }
+                }
+                }
+                });*/
+                console.log(JSON.stringify(survey));
+                this.navigateTo("thankYou", null);
             }
             else {
                 this.showCurQuestion("forward");
