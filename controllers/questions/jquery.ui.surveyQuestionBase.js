@@ -50,20 +50,20 @@
             curQuestionIndex++;
             if (curQuestionIndex >= survey.questions.length) {
                 curQuestionIndex = survey.questions.length - 1;
-                filesystemHelper.getFile("result.json", function (file) {
-                    if (file) {
-                        var funcLoop = function () {
-                            if (file.isWriterAvailable()) {
-                                file.saveText("This is the first text saved using phone gap");
-                                file.readText(function (txt) { alert(txt); });
-                            }
-                            else {
-                                setTimeout(funcLoop, 100);
-                            }
-                        }
-                        funcLoop();
-                    }
-                });
+                /*filesystemHelper.getFile("result.json", function (file) {
+                if (file) {
+                var funcLoop = function () {
+                if (file.isWriterAvailable()) {
+                file.saveText("This is the first text saved using phone gap");
+                file.readText(function (txt) { alert(txt); });
+                }
+                else {
+                setTimeout(funcLoop, 100);
+                }
+                }
+                funcLoop();
+                }
+                });*/
                 alert("Congratulations, you have completed the survey");
                 this.navigateTo("thankYou", null);
             }
@@ -93,8 +93,10 @@
         },
         _resourceClicked: function (sender, e) {
             e.preventDefault();
-            window.plugins.childBrowser.showWebPage("http://google.com");
+            alert($(sender).attr("href"));
             console.log($(sender).attr("href"));
+            window.plugins.childBrowser.showWebPage("http://google.com");
+
         }
 
 
