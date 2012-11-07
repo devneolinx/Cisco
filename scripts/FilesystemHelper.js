@@ -10,21 +10,31 @@
             var filesQue = new Array();
             var fileSystemStatus = 0;
 
+            console.log("on request file system");
 
-            window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, function () {
-                var func = failCB('requestFileSystem');
-                func();
-                fileSystemStatus = -1;
+            window.webkitStorageInfo.requestQuota(PERSISTENT, 1024*1024, function(grantedBytes) {
+                window.webkitRequestFileSystem(PERSISTENT, grantedBytes, gotFS, function () {
+                    console.log("failed getting fs");
+                    var func = failCB('requestFileSystem');
+                    func();
+                    fileSystemStatus = -1;
+                });
+            }, function(e) {
+            console.log('Error', e); 
             });
-    function gotFS(fs) {
+
+            
+            function gotFS(fs) {
+                console.log("got file system");
         fileSystem = fs;
         fileSystemStatus = 1;
     }
 
     this.getFile = function (fileName, callback) {
         var me = this;
+        console.log("on get file");
         if (fileSystemStatus == -1) {
-            window.requestFileSystem(LocalFileSystem.PERSISTENT, 0
+            window.webkitRequestFileSystem(PERSISTENT, 0
             , function (fs) { gotFS(fs); me.getFile(fileName, callback) }
             , function () {
                 var func = failCB('requestFileSystem');
@@ -44,7 +54,7 @@
                 else {
                     if (fileSystemStatus == 1) {
                         while (filesQue.length > 0) {
-                            var fileItem = filesQue.slice(0, 1);
+                            var fileItem = filesQue.splice(0, 1)[0];
                             if (fileItem.callback) {
                                 fileItem.callback(new File(fileItem.fileName))
                             }
@@ -66,11 +76,11 @@
         var writer = { available: false };
         var reader = { available: false }
         var entry = null;
-        
+        console.log("creating file");
         var fail = failCB('getFile');
-        fileSystem.root.getFile(FILENAME, { create: true, exclusive: false },
-                            gotFileEntry, fail);
+        
         function gotFileEntry(fileEntry) {
+            console.log("got file entry");
             var fail = failCB('createWriter');
             entry = fileEntry;
             reader.available = true;
@@ -78,7 +88,11 @@
             readText();
         }
 
+        fileSystem.root.getFile(FILENAME, { create: true, exclusive: false },
+                            gotFileEntry, fail);
+
         function gotFileWriter(fileWriter) {
+            console.log("got writer");
             writer.available = true;
             writer.object = fileWriter;
         }
@@ -88,7 +102,8 @@
         this.isWriterAvailable = function () {
             return writer.available;
         }
-        this.saveText = function(txt) {
+        this.saveText = function (txt) {
+            console.log("on save text");
             if (writer.available) {
                 writer.available = false;
                 writer.object.onwriteend = function (evt) {
@@ -101,7 +116,8 @@
             return false;
         }
 
-        this.readText = function(onReadComplete) {            
+        this.readText = function (onReadComplete) {
+            console.log("on read text");          
             var readText = ""
             if (entry) {
                 entry.file(function (dbFile) {
