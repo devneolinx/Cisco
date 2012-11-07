@@ -18,5 +18,6 @@
     </author>
 
       <gap:plugin name="ChildBrowser" />
+      <access origin="*"/>
       <icon src="icon.png" />
 </widget>

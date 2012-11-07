@@ -92,7 +92,8 @@
         },
         _resourceClicked: function (sender, e) {
             e.preventDefault();
-            window.plugins.childBrowser.showWebPage($(sender).attr("href"))
+            window.plugins.childBrowser.showWebPage("http://google.com");
+            console.log($(sender).attr("href"));
         }
 
 
