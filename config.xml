@@ -17,5 +17,6 @@
         Neolinx
     </author>
 
+      <gap:plugin name="ChildBrowser" />
       <icon src="icon.png" />
 </widget>

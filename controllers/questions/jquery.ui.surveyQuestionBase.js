@@ -89,6 +89,10 @@
                 display = "block";
             }
             return display;
+        },
+        _resourceClicked: function (sender, e) {
+            e.preventDefault();
+            window.plugins.childBrowser.showWebPage($(sender).attr("href"))
         }
 
 
