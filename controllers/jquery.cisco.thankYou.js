@@ -1,5 +1,4 @@
-﻿var masterPageController = null;
-(function ($) {
+﻿(function ($) {
     $.widget("cisco.thankYou", $.ui.mainController, {
         //defaul options
         options: {

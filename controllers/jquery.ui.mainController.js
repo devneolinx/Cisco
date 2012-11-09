@@ -171,6 +171,7 @@
             this._unbindEvents();
         },
         navigateTo: function (pageName, model, direction) {
+        	console.log("navigating to " + pageName)
             var page = this._pageHolder.find("#view_" + pageName + "[data-role='Page']")
             var me = this;
             if (page.length > 0) {
@@ -180,14 +181,19 @@
                 $.ajax({
                     url: "views/" + pageName + ".html",
                     type: "GET",
+                    dataType: "text",
                     success: function (response) {
-                        me._pageHolder.append(response)
+                    	me._pageHolder.append(response);
+                        console.log("page appended")
                         var page = me._pageHolder.find("#view_" + pageName + "[data-role='Page']");
                         var widget = $.proxy(page[pageName], page);
                         curActivePage = widget({
                             model: model
                         })
                         me.showPage(pageName, model, direction);
+                    },
+                    error: function(e, msg){
+                    	console.log(msg);
                     }
                 });
             }

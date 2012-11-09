@@ -12,29 +12,29 @@
 
             console.log("on request file system");
 
-            window.webkitStorageInfo.requestQuota(PERSISTENT, 1024*1024, function(grantedBytes) {
-                window.webkitRequestFileSystem(PERSISTENT, grantedBytes, gotFS, function () {
+            //window.webkitStorageInfo.requestQuota(PERSISTENT, 1024*1024, function(grantedBytes) {
+                window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, function () {
                     console.log("failed getting fs");
                     var func = failCB('requestFileSystem');
                     func();
                     fileSystemStatus = -1;
                 });
-            }, function(e) {
+            /*}, function(e) {
             console.log('Error', e); 
-            });
-
+            });*/
+            console.log("requested file system");
             
             function gotFS(fs) {
                 console.log("got file system");
-        fileSystem = fs;
-        fileSystemStatus = 1;
-    }
+                fileSystem = fs;
+                fileSystemStatus = 1;
+            }
 
     this.getFile = function (fileName, callback) {
         var me = this;
         console.log("on get file");
         if (fileSystemStatus == -1) {
-            window.webkitRequestFileSystem(PERSISTENT, 0
+            window.requestFileSystem(LocalFileSystem.PERSISTENT, 0
             , function (fs) { gotFS(fs); me.getFile(fileName, callback) }
             , function () {
                 var func = failCB('requestFileSystem');
@@ -85,7 +85,7 @@
             entry = fileEntry;
             reader.available = true;
             fileEntry.createWriter(gotFileWriter, fail);
-            readText();
+            //readText();
         }
 
         fileSystem.root.getFile(FILENAME, { create: true, exclusive: false },

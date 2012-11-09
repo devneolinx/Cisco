@@ -61,7 +61,14 @@
     <script src="models/answers.js" type="text/javascript"></script>
     <script type="text/javascript">
         var filesystemHelper;
-        document.addEventListener("deviceready", function () { filesystemHelper = new FilesystemHelper(); }, false);
+        document.addEventListener("deviceready", function () {
+                                  alert("inside device ready");
+            filesystemHelper = new FilesystemHelper();
+            alert(filesystemHelper);
+            /*if (window.plugins.childBrowser == null) {
+                ChildBrowser.install();
+            }*/
+        }, false);
 
         $(document).ready(function () {
             

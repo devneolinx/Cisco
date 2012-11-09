@@ -50,7 +50,7 @@
             curQuestionIndex++;
             if (curQuestionIndex >= survey.questions.length) {
                 curQuestionIndex = survey.questions.length - 1;
-                /*filesystemHelper.getFile("result.json", function (file) {
+                filesystemHelper.getFile("result.json", function (file) {
                 if (file) {
                 var funcLoop = function () {
                 if (file.isWriterAvailable()) {
@@ -63,9 +63,10 @@
                 }
                 funcLoop();
                 }
-                });*/
-                alert("Congratulations, you have completed the survey");
-                this.navigateTo("thankYou", null);
+                });
+                
+                this.navigateTo("thankYou", this.options.model);
+                console.log("navigate to called")
             }
             else {
                 this.showCurQuestion("forward");
@@ -93,9 +94,10 @@
         },
         _resourceClicked: function (sender, e) {
             e.preventDefault();
-            alert($(sender).attr("href"));
-            console.log($(sender).attr("href"));
-            window.plugins.childBrowser.showWebPage("http://google.com");
+             var strPath = window.location.href;
+             var path = strPath.substr(0,strPath.lastIndexOf('/')) + $(sender).attr("href");
+            console.log(path);
+            window.plugins.childBrowser.showWebPage(path);
 
         }
 
