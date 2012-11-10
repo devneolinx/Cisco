@@ -102,22 +102,22 @@
         <resource id="1">
           <type>video</type>
           <name>Nice Video</name>
-          <path>videos/cisco-video.html</path>
+          <path>/videos/cisco-video.html</path>
         </resource>
         <resource id="2">
           <type>switch</type>
           <name>PDF doc</name>
-          <path>resources/leadform-cisco-generic-v10-120621_A4_portrait_EN.pdf</path>
+          <path>/resources/leadform-cisco-generic-v10-120621_A4_portrait_EN.pdf</path>
         </resource>
         <resource id="3">
           <type>pdf</type>
           <name>Word doc</name>
-          <path>resources/Cisco_requirements2.docx</path>
+          <path>/resources/Cisco_requirements2.docx</path>
         </resource>
         <resource id="3">
           <type>switch</type>
           <name>PPT doc</name>
-          <path>resources/presentations-tips.ppt</path>
+          <path>/resources/presentations-tips.ppt</path>
         </resource>
 
       </resources>
