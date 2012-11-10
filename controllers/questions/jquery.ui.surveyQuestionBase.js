@@ -93,10 +93,10 @@
             return display;
         },
         _resourceClicked: function (sender, e) {
-            e.preventDefault();
-             var strPath = window.location.href;
-             var path = strPath.substr(0,strPath.lastIndexOf('/')) + $(sender).attr("href");
-            console.log(path);
+        	e.preventDefault();
+	         var strPath = window.location.href;
+	         var path = strPath.substr(0,strPath.lastIndexOf('/')) + $(sender).attr("href");
+            alert(path);
             window.plugins.childBrowser.showWebPage(path);
 
         }
