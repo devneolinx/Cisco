@@ -51,14 +51,14 @@
             curQuestionIndex++;
             if (curQuestionIndex >= survey.questions.length) {
                 curQuestionIndex = survey.questions.length - 1;
-                console.log(me.getSurveyResponse());
+                //console.log(me.getSurveyResponse());
                 
                 filesystemHelper.getFile("Cisco/result.txt", function (file) {
 	                if (file) {
 		                var funcLoop = function () {
 			                if (file.isWriterAvailable()) {
 				                file.saveText(me.getSurveyResponse() + ",");
-				                file.readText(function (txt) { alert(txt); });
+				                //file.readText(function (txt) { alert(txt); });
 			                }
 			                else {
 			                	setTimeout(funcLoop, 100);
@@ -68,8 +68,7 @@
 	                }
                 });
                 
-                this.navigateTo("thankYou", this.options.model);
-                console.log("navigate to called");
+                this.navigateTo("thankYou", this.options.model);                
             }
             else {
                 this.showCurQuestion("forward");
@@ -114,8 +113,9 @@
         },
         _resourceClicked: function (sender, e) {
         	e.preventDefault();
-	         var strPath = window.location.href;
-	         var path = strPath.substr(0,strPath.lastIndexOf('/')) + $(sender).attr("href");
+	         //var strPath = window.location.href;
+	         //var path = strPath.substr(0,strPath.lastIndexOf('/')) + $(sender).attr("href");
+        	var path = localStorage[$(sender).attr("href")];
             alert(path);
             window.plugins.childBrowser.showWebPage(path);
 

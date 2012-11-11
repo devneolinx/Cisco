@@ -171,7 +171,7 @@
             this._unbindEvents();
         },
         navigateTo: function (pageName, model, direction) {
-        	console.log("navigating to " + pageName)
+        	//console.log("navigating to " + pageName)
             var page = this._pageHolder.find("#view_" + pageName + "[data-role='Page']")
             var me = this;
             if (page.length > 0) {
@@ -184,7 +184,7 @@
                     dataType: "text",
                     success: function (response) {
                     	me._pageHolder.append(response);
-                        console.log("page appended")
+                        //console.log("page appended")
                         var page = me._pageHolder.find("#view_" + pageName + "[data-role='Page']");
                         var widget = $.proxy(page[pageName], page);
                         curActivePage = widget({

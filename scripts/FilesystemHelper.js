@@ -10,7 +10,7 @@
             var filesQue = new Array();
             var fileSystemStatus = 0;
 
-            console.log("on request file system");
+            //console.log("on request file system");
 
             //window.webkitStorageInfo.requestQuota(PERSISTENT, 1024*1024, function(grantedBytes) {
                 window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, function () {
@@ -22,17 +22,17 @@
             /*}, function(e) {
             console.log('Error', e); 
             });*/
-            console.log("requested file system");
+            //console.log("requested file system");
             
             function gotFS(fs) {
-                console.log("got file system");
+                //console.log("got file system");
                 fileSystem = fs;
                 fileSystemStatus = 1;
             }
 
-    this.getFile = function (fileName, callback, create) {
+    this.getFile = function (fileName, callback, readonly) {
         var me = this;
-        console.log("on get file");
+        //console.log("on get file");
         if (fileSystemStatus == -1) {
             window.requestFileSystem(LocalFileSystem.PERSISTENT, 0
             , function (fs) { gotFS(fs); me.getFile(fileName, callback) }
@@ -57,9 +57,9 @@
 	                        while (filesQue.length > 0) {
 	                            var fileItem = filesQue.splice(0, 1)[0];
 	                            if (fileItem.callback) {
-	                            	var newFile = new File(fileItem.fileName, create);
-	                            	allFiles[fileItem.fileName] = newFile;
-	                                fileItem.callback(newFile)
+	                            	var newFile = new File(fileItem.fileName, readonly, fileItem.callback);
+	                            	newFile.getFile();
+	                                //fileItem.callback(newFile)
 	                            }
 	                        }
 	                    }
@@ -81,31 +81,50 @@
 
     }
 
-    function File(FILENAME, create) {
+    function File(FILENAME, readonly, callback) {
         var writer = { available: false };
         var reader = { available: false }
         var entry = null;
-        console.log("creating file");
+        //console.log("creating file");
         var fail = failCB('getFile');
-        
+        var me = this;
         function gotFileEntry(fileEntry) {
-            console.log("got file entry");
+            //console.log("got file entry");
             var fail = failCB('createWriter');
             entry = fileEntry;
             reader.available = true;
-            fileEntry.createWriter(gotFileWriter, fail);
-            //readText();
+            if(!readonly){
+	            fileEntry.createWriter(gotFileWriter, function(){
+    				fail();
+    				if(callback){    					
+    	            	callback(null)
+    	            }
+    			});
+	            //readText();
+            }
+            else{
+            	if(callback){
+            		allFiles[FILENAME] = me;
+	            	callback(me)
+	            }            	
+            }
         }
 
         var fileParts = FILENAME.split("/");
         var createDirRecursively = function(i, parent){
         	
         	var filePart = fileParts[i];
-        	console.log("Filepart: " + filePart);
+        	//console.log("Filepart: " + filePart);
         	if(filePart && filePart!=""){
         		if(i== fileParts.length-1){
-        			parent.getFile(filePart, { create: !!create, exclusive: false },
-                            gotFileEntry, fail);
+        			parent.getFile(filePart, { create: !readonly, exclusive: false },
+                            gotFileEntry, function(){
+		        				fail();
+		        				if(callback){
+		        	            	callback(null)
+		        	            }
+		        			}
+        			);
         			
         		}
         		else{
@@ -123,14 +142,23 @@
         	
         }
         
-        createDirRecursively(0, fileSystem.root);
+        this.getFile = function(){
+        	me = this;
+        	createDirRecursively(0, fileSystem.root);
+        }
+        
 
         function gotFileWriter(fileWriter) {
-            console.log("got writer");
+            //console.log("got writer");
             writer.available = true;
             var length = fileWriter.length;
             fileWriter.seek(length);
             writer.object = fileWriter;
+            if(callback){
+            	allFiles[FILENAME] = me;
+            	//alert(me.getFullPath());
+            	callback(me);
+            }
         }
         this.isReaderAvailable = function () {
             return reader.available;
@@ -142,7 +170,7 @@
         	return entry.fullPath;
         }
         this.saveText = function (txt) {
-            console.log("on save text");
+            //console.log("on save text");
             if (writer.available) {
                 writer.available = false;
                 writer.object.onwriteend = function (evt) {
@@ -156,7 +184,7 @@
         }
 
         this.readText = function (onReadComplete) {
-            console.log("on read text");          
+            //console.log("on read text");          
             var readText = ""
             if (entry) {
                 entry.file(function (dbFile) {

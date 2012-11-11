@@ -41,24 +41,26 @@ FiletransferHelper.downloadFile = function(url, targetName, complete){
 	var filePath = "Cisco/downloads/" + targetName;
 	filesystemHelper.getFile(filePath, function(file){
 		var fullPath = file.getFullPath();
-		//file.delete();
+		file.delete();
 		var fileTransfer = new FileTransfer();
 		var uri = encodeURI(url);
 
 		fileTransfer.download(
 		    uri,
 		    fullPath,
-		    function(entry) {		        
+		    function(entry) {	
+		    	console.log("file Downloaded");
 		        localStorage[url] = entry.fullPath;
-		        if(!complete){
+		        alert(localStorage[url]);
+		        if(complete){
 		        	complete(entry.fullPath);
 		        }
 		    },
 		    function(error) {		    	
 		        console.log("download error source " + error.source);
 		        console.log("download error target " + error.target);
-		        console.log("upload error code" + error.code);
-		        if(!complete){
+		        console.log("download error code" + error.code);
+		        if(complete){
 		        	complete(null);
 		        }
 		    }

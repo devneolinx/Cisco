@@ -1,4 +1,4 @@
-﻿<div id="view_textInput" data-role="Page" class="twelve columns partnerName area">
+<div id="view_textInput" data-role="Page" class="twelve columns partnerName area">
         	<div class="row">
             	<h2 id="question" data-bind="{context: 'this'}">{path: 'text'}</h2>
                 <div class="six column mrgTopLeft"><input id="txtUserInput" data-events="{'change': '_textChanged'}" type="text" /></div>
@@ -8,7 +8,7 @@
 	        	<div data-bind="{context: 'this'}" class="resources" style="display:{path: 'resources', func: '_getResourceDisplay'}">
 	            	<h3>Resources</h3>
 	            	<ul data-bind="{context:'resources'}">
-	            		<li><a href="{path: 'path'}" target="_blank" class="{path: 'type', func: '_getClassForType'}">{path: 'name'}</a></li>	            		
+	            		<li><a href="{path: 'path'}" target="_blank" class="{path: 'type', func: '_getClassForType'}">{path: 'title'}</a></li>	            		
 	            	</ul>
 	            </div>
              </div>

@@ -16,25 +16,30 @@
             var me = this;
             var survey = new Survey();
             filesystemHelper.getFile("Cisco/downloads/survey.xml", function(file){
-	            
-	            survey.loadXML(function (survey) {
-	                me._survey = survey;
-	
-	                $(".panelDriver div.overviewCont").quickJump({
-	                    model: survey
-	                });
-	
-	                $(".panelDriver div.comments").comment({
-	                    model: survey
-	                });
-	
-	                
-	            }, file.getFullPath());
-            });
+	            if(file!=null){
+	            	//console.log("file available");
+		            survey.loadXML(function (survey) {
+		                me._survey = survey;
+		
+		                $(".panelDriver div.overviewCont").quickJump({
+		                    model: survey
+		                });
+		
+		                $(".panelDriver div.comments").comment({
+		                    model: survey
+		                });
+		                me.navigateTo("contact", survey);
+		                
+		            }, file.getFullPath());
+	            }
+	            else{	            	
+	            	me.navigateTo("settings", survey);
+	            }
+            }, true);
 
             
 
-            this.navigateTo("contact", survey);
+            
             
             /***************events******************/
             $("#btnBack").click(function (e) {
