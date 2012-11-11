@@ -1,5 +1,5 @@
 ﻿function FilesystemHelper() {
-   
+			var allFiles = [];
             var failCB = function (msg) {
                 return function () {
                     alert('[FAIL] ' + msg);
@@ -30,7 +30,7 @@
                 fileSystemStatus = 1;
             }
 
-    this.getFile = function (fileName, callback) {
+    this.getFile = function (fileName, callback, create) {
         var me = this;
         console.log("on get file");
         if (fileSystemStatus == -1) {
@@ -46,33 +46,42 @@
             });
         }
         else {
-            filesQue.push({ fileName: fileName, callback: callback });
-            var funcPoll = function () {
-                if (fileSystemStatus == 0) {
-                    setTimeout(funcPoll, 100);
-                }
-                else {
-                    if (fileSystemStatus == 1) {
-                        while (filesQue.length > 0) {
-                            var fileItem = filesQue.splice(0, 1)[0];
-                            if (fileItem.callback) {
-                                fileItem.callback(new File(fileItem.fileName))
-                            }
-                        }
-                    }
-                    else {
-                        if (fileItem.callback) {
-                            fileItem.callback(null)
-                        }
-                    }
-                }
-            }
-            funcPoll();
+        	if(!allFiles[fileName]){
+	            filesQue.push({ fileName: fileName, callback: callback });
+	            var funcPoll = function () {
+	                if (fileSystemStatus == 0) {
+	                    setTimeout(funcPoll, 100);
+	                }
+	                else {
+	                    if (fileSystemStatus == 1) {
+	                        while (filesQue.length > 0) {
+	                            var fileItem = filesQue.splice(0, 1)[0];
+	                            if (fileItem.callback) {
+	                            	var newFile = new File(fileItem.fileName, create);
+	                            	allFiles[fileItem.fileName] = newFile;
+	                                fileItem.callback(newFile)
+	                            }
+	                        }
+	                    }
+	                    else {
+	                        if (fileItem.callback) {
+	                            fileItem.callback(null)
+	                        }
+	                    }
+	                }
+	            }
+	            funcPoll();
+        	}
+        	else{
+        		if (callback) {
+                    callback(allFiles[fileName]);
+                }        		
+        	}
         }
 
     }
 
-    function File(FILENAME) {
+    function File(FILENAME, create) {
         var writer = { available: false };
         var reader = { available: false }
         var entry = null;
@@ -88,12 +97,39 @@
             //readText();
         }
 
-        fileSystem.root.getFile(FILENAME, { create: true, exclusive: false },
+        var fileParts = FILENAME.split("/");
+        var createDirRecursively = function(i, parent){
+        	
+        	var filePart = fileParts[i];
+        	console.log("Filepart: " + filePart);
+        	if(filePart && filePart!=""){
+        		if(i== fileParts.length-1){
+        			parent.getFile(filePart, { create: !!create, exclusive: false },
                             gotFileEntry, fail);
+        			
+        		}
+        		else{
+        			parent.getDirectory(filePart, {create: true, exclusive: false},
+		        			function(dir){
+	        					curDir = dir
+	        					createDirRecursively(++i, dir);
+		        			},
+		        			function(){
+		        				console.log("Creating directory '"+ filePart +"' failed")
+		        			}
+	        			);	
+        		}
+        	}
+        	
+        }
+        
+        createDirRecursively(0, fileSystem.root);
 
         function gotFileWriter(fileWriter) {
             console.log("got writer");
             writer.available = true;
+            var length = fileWriter.length;
+            fileWriter.seek(length);
             writer.object = fileWriter;
         }
         this.isReaderAvailable = function () {
@@ -101,6 +137,9 @@
         }
         this.isWriterAvailable = function () {
             return writer.available;
+        }
+        this.getFullPath = function(){
+        	return entry.fullPath;
         }
         this.saveText = function (txt) {
             console.log("on save text");
@@ -135,6 +174,10 @@
             }
 
             return false;
+        }
+        this.delete = function(){
+        	entry.remove;
+        	allFiles[FILENAME] = null;
         }
     }
 

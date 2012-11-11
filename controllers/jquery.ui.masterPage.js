@@ -15,18 +15,21 @@
 
             var me = this;
             var survey = new Survey();
-            survey.loadXML(function (survey) {
-                me._survey = survey;
-
-                $(".panelDriver div.overviewCont").quickJump({
-                    model: survey
-                });
-
-                $(".panelDriver div.comments").comment({
-                    model: survey
-                });
-
-                
+            filesystemHelper.getFile("Cisco/downloads/survey.xml", function(file){
+	            
+	            survey.loadXML(function (survey) {
+	                me._survey = survey;
+	
+	                $(".panelDriver div.overviewCont").quickJump({
+	                    model: survey
+	                });
+	
+	                $(".panelDriver div.comments").comment({
+	                    model: survey
+	                });
+	
+	                
+	            }, file.getFullPath());
             });
 
             
@@ -42,7 +45,11 @@
                 e.preventDefault();
                 me.triggerCustomEvent("onNext", "nextParam");
             });
-
+            $("#ciscoLogo").click(function (e) {
+                e.preventDefault();
+                me.navigateTo("settings");
+            });
+            
         },
         //called when widget is called with no parameter of only options after widget is created 
         _init: function () {

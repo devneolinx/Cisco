@@ -2,9 +2,10 @@
     var $ = jQuery;
     this.questions = new Array();
     this.salesmen = new Array();
-    this.loadXML = function (loadedCallback) {
+    this.loadXML = function (loadedCallback, fullpath) {
+    	alert(fullpath);
         $.ajax({
-            url: "xml/survey_real.xml",
+            url: fullpath,
             type: "GET",
             dataType: "text",
             context: this,
@@ -12,7 +13,7 @@
                 this.parseSurveyXml(resp, loadedCallback);
             },
             error: function (e, m) {
-                alert("error occured while getting survey questions");
+                alert("loadXml: " + m);
             }
         });
     }
@@ -21,7 +22,7 @@
         var surveyXmlObj = $(resp);
         var me = this;
 
-
+        me.id = surveyXmlObj.filter("survey").attr("id");
         surveyXmlObj.find("salesmen>salesman").each(function () {
             var salesman = {};
             salesman.id = $(this).attr("id");

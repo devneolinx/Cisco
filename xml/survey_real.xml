@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<survey>
+<survey id="1">
   <salesmen>
     <salesman id="1">
       <name>Salesman 1</name>
