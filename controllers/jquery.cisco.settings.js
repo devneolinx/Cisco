@@ -37,6 +37,9 @@
         		}
         	}
         	var downloading = 0;
+        	var downloaded = 0;
+        	var resourceCount = allResources.length;
+        	alert(resourceCount);
         	var download = function(){
         		if(allResources.length>0){
         		   if(downloading<=5){
@@ -45,14 +48,17 @@
 		        		downloading++;
 		        		FiletransferHelper.downloadFile(res.path, res.name, function(path){
 		        			 downloading--;
+		        			 downloaded++;
 					         console.log("downloaded " + path);
 					    });
 				   }
-				   setTimeout(download, 50);
+				   
 			    }
-			    else{
+			    else if(downloaded>=resourceCount){
+			    	alert(downloaded);
 			    	window.location = "index.html";
 			    }
+        		setTimeout(download, 50);
         	}
         	
         	download();
