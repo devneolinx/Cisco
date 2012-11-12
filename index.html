@@ -63,6 +63,9 @@
     <script src="models/answers.js" type="text/javascript"></script>
     <script type="text/javascript">
         var filesystemHelper;
+        var isPhoneGap = !!(window.PhoneGap || window.cordova);
+        //var baseServerPath = "http://192.168.1.118/Cisco";
+        var baseServerPath = "http://theneolinx.info/clients/cisco/service";
         document.addEventListener("deviceready", function () {
                                  // alert("inside device ready");
             filesystemHelper = new FilesystemHelper();
@@ -74,7 +77,7 @@
         }, false);
 
         $(document).ready(function () {
-            
+
             $(".video").fancybox({
                 padding: 0,
                 width: '100%',
@@ -82,8 +85,9 @@
                 'type': 'ajax'
             });
 
-                      
-            //$(".main[data-role='MasterPage']").masterPage("navigateTo", "contact", null);
+            if (!isPhoneGap) {
+                $(".main[data-role='MasterPage']").masterPage({});
+            }
 
         });
         
@@ -117,7 +121,8 @@
             <div id="dynamicContent">
             </div>
             <div class="buttonWrap commonBtnWrap">
-                <a id="btnBack" class="button back" href="#">Back</a> <a id="btnNext" class="button next"
+                <a id="btnBack" class="button back" href="#">Back</a> 
+                <a id="btnNext" class="button next"
                     href="#">Next</a>
             </div>
         </div>

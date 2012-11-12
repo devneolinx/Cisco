@@ -7,12 +7,14 @@
         //constructor
         _create: function () {
             $.ui.mainController.prototype._create.call(this);
-
+            
         },
         //called when widget is called with no parameter of only options after widget is created 
         _init: function () {
             $.ui.mainController.prototype._init.call(this);
-            
+            masterPageController.hideNextBtn(true);
+            masterPageController.hideBackBtn(true);
+
         },
         //destructor
         destroy: function () {

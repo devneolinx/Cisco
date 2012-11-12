@@ -26,7 +26,7 @@ FiletransferHelper.uploadTextFile= function(filePath, uploadUrl){
     }
 
     function fail(error) {
-        alert("An error has occurred: Code = " + error.code);
+        //alert("An error has occurred: Code = " + error.code);
         console.log("upload error source " + error.source);
         console.log("upload error target " + error.target);
     }
@@ -51,7 +51,7 @@ FiletransferHelper.downloadFile = function(url, targetName, complete){
 		    function(entry) {	
 		    	console.log("file Downloaded");
 		        localStorage[url] = entry.fullPath;
-		        alert(localStorage[url]);
+		        //alert(localStorage[url]);
 		        if(complete){
 		        	complete(entry.fullPath);
 		        }

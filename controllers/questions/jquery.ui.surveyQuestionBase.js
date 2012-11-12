@@ -47,49 +47,50 @@
         },
         //override
         onNext: function (arg) {
-        	var me = this;
+            var me = this;
             curQuestionIndex++;
             if (curQuestionIndex >= survey.questions.length) {
                 curQuestionIndex = survey.questions.length - 1;
                 //console.log(me.getSurveyResponse());
-                
-                filesystemHelper.getFile("Cisco/result.txt", function (file) {
-	                if (file) {
-		                var funcLoop = function () {
-			                if (file.isWriterAvailable()) {
-				                file.saveText(me.getSurveyResponse() + ",");
-				                //file.readText(function (txt) { alert(txt); });
-			                }
-			                else {
-			                	setTimeout(funcLoop, 100);
-			                }
-		                }
-		                funcLoop();
-	                }
-                });
-                
-                this.navigateTo("thankYou", this.options.model);                
+                if (isPhoneGap) {
+                    filesystemHelper.getFile("Cisco/result.txt", function (file) {
+                        if (file) {
+                            var funcLoop = function () {
+                                if (file.isWriterAvailable()) {
+                                    file.saveText(JSON.stringify(survey) + ",");
+                                    //file.readText(function (txt) { alert(txt); });
+                                }
+                                else {
+                                    setTimeout(funcLoop, 100);
+                                }
+                            }
+                            funcLoop();
+                        }
+                    });
+                }
+
+                this.navigateTo("thankYou", this.options.model);
             }
             else {
                 this.showCurQuestion("forward");
             }
         },
-        getSurveyResponse: function(){
-        	var respObj = {};
-        	respObj.id = survey.id;
-        	respObj.contactInfo = survey.contactInfo;
-        	respObj.commentInfo = survey.commentInfo;
-        	respObj.answers = [];
-        	for(var keyQ in survey.questions){
-        		var curQ = survey.questions[keyQ];
-        		for(var keyA in curQ.answers ){
-        			var curA = curQ.answers[keyA];
-        			respObj.answers.push(curA);
-        		}
-        	}
-        	
-        	return JSON.stringify(respObj);
-        	
+        getSurveyResponse: function () {
+            var respObj = {};
+            respObj.id = survey.id;
+            respObj.contactInfo = survey.contactInfo;
+            respObj.commentInfo = survey.commentInfo;
+            respObj.answers = [];
+            for (var keyQ in survey.questions) {
+                var curQ = survey.questions[keyQ];
+                for (var keyA in curQ.answers) {
+                    var curA = curQ.answers[keyA];
+                    respObj.answers.push(curA);
+                }
+            }
+
+            return JSON.stringify(respObj);
+
         },
         onPrev: function (arg) {
             curQuestionIndex--;
@@ -112,11 +113,11 @@
             return display;
         },
         _resourceClicked: function (sender, e) {
-        	e.preventDefault();
-	         //var strPath = window.location.href;
-	         //var path = strPath.substr(0,strPath.lastIndexOf('/')) + $(sender).attr("href");
-        	var path = localStorage[$(sender).attr("href")];
-            alert(path);
+            e.preventDefault();
+            //var strPath = window.location.href;
+            //var path = strPath.substr(0,strPath.lastIndexOf('/')) + $(sender).attr("href");
+            var path = localStorage[baseServerPath + $(sender).attr("href")];
+            //alert(path);
             window.plugins.childBrowser.showWebPage(path);
 
         }

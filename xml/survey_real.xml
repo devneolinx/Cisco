@@ -2,7 +2,7 @@
 <survey id="1">
   <salesmen>
     <salesman id="1">
-      <name>Salesman 1</name>
+      <name>Salesman from local 1</name>
     </salesman>
     <salesman id="2">
       <name>Salesman 2</name>
@@ -102,25 +102,25 @@
         <resource id="1">
           <type>video</type>
           <title>Oceon Video</title>
-          <path>http://192.168.1.5/cisco/resources/oceans-clip.mp4</path>
+          <path>/resources/oceans-clip.mp4</path>
           <name>oceans-clip.mp4</name>
         </resource>
         <resource id="2">
           <type>switch</type>
           <title>PDF doc</title>
-          <path>http://192.168.1.5/cisco/resources/leadform-cisco-generic-v10-120621_A4_portrait_EN.pdf</path>
+          <path>/resources/leadform-cisco-generic-v10-120621_A4_portrait_EN.pdf</path>
           <name>leadform-cisco-generic-v10-120621_A4_portrait_EN.pdf</name>
         </resource>
         <resource id="3">
           <type>pdf</type>
           <title>Word doc</title>
-          <path>http://192.168.1.5/cisco/resources/Cisco_requirements2.docx</path>
+          <path>/resources/Cisco_requirements2.docx</path>
           <name>Cisco_requirements2.docx</name>
         </resource>
         <resource id="3">
           <type>switch</type>
           <title>PPT doc</title>
-          <path>http://192.168.1.5/cisco/resources/presentations-tips.ppt</path>
+          <path>/resources/presentations-tips.ppt</path>
           <name>presentations-tips.ppt</name>
         </resource>
 

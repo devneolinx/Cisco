@@ -3,7 +3,7 @@
     this.questions = new Array();
     this.salesmen = new Array();
     this.loadXML = function (loadedCallback, fullpath) {
-    	alert(fullpath);
+    	//alert(fullpath);
         $.ajax({
             url: fullpath,
             type: "GET",

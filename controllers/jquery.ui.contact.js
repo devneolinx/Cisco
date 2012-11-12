@@ -9,6 +9,7 @@
             // Your code before calling the overridden method.
             $.ui.mainController.prototype._create.call(this);
             // Your code after calling the overridden method.
+           
 
         },
         //called when widget is called with no parameter of only options after widget is created 
@@ -16,6 +17,8 @@
             $.ui.mainController.prototype._init.call(this);
             this._loadContact();
             Custom.init(this.element);
+            //masterPageController.hideNextBtn(false);
+            //masterPageController.hideBackBtn(true);
         },
         _loadContact: function () {
             var contactInfo = this.options.model.contactInfo;
