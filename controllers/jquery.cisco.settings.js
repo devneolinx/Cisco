@@ -16,7 +16,11 @@
             masterPageController.hideBackBtn(false);
         },
         _upload: function (s, e) {
-            FiletransferHelper.uploadTextFile("Cisco/result.txt", baseServerPath + "/UploadResponse.aspx");
+            FiletransferHelper.uploadTextFile("Cisco/result.txt", baseServerPath + "/UploadResponse.aspx"
+            	, function(suceess){
+            		$("#loadingDiv").loading("hide");
+            	});
+            $("#loadingDiv").loading("show");
         },
         _download: function (s, e) {
             var me = this;
@@ -24,6 +28,7 @@
                 var survey = new Survey();
                 survey.loadXML($.proxy(me._downloadResources, me), path);
             });
+            $("#loadingDiv").loading("show");
         },
         _downloadResources: function (survey) {
             var allResources = new Array();
@@ -57,6 +62,7 @@
                 }
                 else if (downloaded >= resourceCount) {
                     alert("Resource files downloaded sucessfully");
+                    $("#loadingDiv").loading("hide");
                     window.location = "index.html";
                 }
                 setTimeout(download, 50);

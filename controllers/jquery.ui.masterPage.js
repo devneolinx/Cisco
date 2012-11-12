@@ -12,7 +12,7 @@
             var buttons = $(".commonBtnWrap", this.element);
             var height = buttons.offset().top - this._container.offset().top;
             $(this._pageHolder, this.element).height(height);
-
+            $("#loadingDiv").loading();            
             var me = this;
             var survey = new Survey();
             if(isPhoneGap)

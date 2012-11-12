@@ -1,5 +1,5 @@
 var FiletransferHelper = {};
-FiletransferHelper.uploadTextFile= function(filePath, uploadUrl){
+FiletransferHelper.uploadTextFile= function(filePath, uploadUrl, callback){
 	var options = new FileUploadOptions();
     options.fileKey="file";
     options.fileName="CiscoResponse.txt";
@@ -20,13 +20,19 @@ FiletransferHelper.uploadTextFile= function(filePath, uploadUrl){
     
     function win(r) {
     	alert("file uploaded sucessfully")
+    	if(callback){
+    		callback(true);
+    	}
         console.log("Code = " + r.responseCode);
         console.log("Response = " + r.response);
         console.log("Sent = " + r.bytesSent);
     }
 
     function fail(error) {
-        //alert("An error has occurred: Code = " + error.code);
+        alert("An error has occurred: Code = " + error.code);
+        if(callback){
+    		callback(false);
+    	}
         console.log("upload error source " + error.source);
         console.log("upload error target " + error.target);
     }
