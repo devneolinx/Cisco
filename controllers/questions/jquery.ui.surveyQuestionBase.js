@@ -25,12 +25,12 @@
                 curQuestionIndex = this.options.questionIndex;
             }
 
-            $(".resources a.video", this.element).fancybox({
+            /*$(".resources a.video", this.element).fancybox({
                 padding: 0,
                 width: '100%',
                 autosize: true,
                 'type': 'ajax'
-            });
+            });*/
         },
         //destructor
         destroy: function () {
@@ -103,7 +103,7 @@
             }
         },
         _getClassForType: function (type, parentArray, index) {
-            return (type + (type == 'video' ? " vids fancybox.ajax" : ""));
+            return (type );
         },
         _getResourceDisplay: function (resources, parent, index) {
             var display = "none";
