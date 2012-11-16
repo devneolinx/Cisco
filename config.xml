@@ -7,7 +7,7 @@
 
     <!-- versionCode is optional and Android only -->
 
-	<preference name="phonegap-version" value="2.2.0" />
+	<preference name="phonegap-version" value="2.0.0" />
     <name>Cisco</name>
 
     <description>
