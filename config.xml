@@ -17,7 +17,7 @@
         Neolinx
     </author>
 
-    <preference name="orientation" value="landscape" />
+   
     
     
       <gap:plugin name="ChildBrowser" />
