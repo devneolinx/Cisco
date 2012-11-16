@@ -16,7 +16,7 @@
             masterPageController.hideBackBtn(false);
         },
         _upload: function (s, e) {
-            FiletransferHelper.uploadTextFile("Cisco/result.txt", baseServerPath + "/UploadResponse.aspx"
+            FiletransferHelper.uploadTextFile("Cisco/result.txt", baseServerPath + "/client.php"
             	, function(suceess){
             		$("#loadingDiv").loading("hide");
             	});

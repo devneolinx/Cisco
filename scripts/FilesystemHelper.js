@@ -203,7 +203,7 @@
 
             return false;
         }
-        this.delete = function(){
+        this.deleteFile = function(){
         	entry.remove;
         	allFiles[FILENAME] = null;
         }

@@ -9,12 +9,7 @@ FiletransferHelper.uploadTextFile= function(filePath, uploadUrl, callback){
     	var fullPath = file.getFullPath();
     	var ft = new FileTransfer();
         ft.upload(fullPath, encodeURI(uploadUrl), win, fail, options);
-    },
-    /*fail*/
-    function(){
-    	
-    }
-    )
+    });
     
     
     
@@ -47,7 +42,7 @@ FiletransferHelper.downloadFile = function(url, targetName, complete){
 	var filePath = "Cisco/downloads/" + targetName;
 	filesystemHelper.getFile(filePath, function(file){
 		var fullPath = file.getFullPath();
-		file.delete();
+		file.deleteFile();
 		var fileTransfer = new FileTransfer();
 		var uri = encodeURI(url);
 

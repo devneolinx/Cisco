@@ -17,6 +17,9 @@
         Neolinx
     </author>
 
+    <preference name="orientation" value="landscape" />
+    <preference name="fullscreen" value="true" />
+    
       <gap:plugin name="ChildBrowser" />
       <access origin="*"/>
       <icon src="icon.png" />
