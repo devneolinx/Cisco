@@ -19,6 +19,13 @@ body {
 	width:100%;
 	position:relative;
 }
+
+@media only screen and (orientation:portrait){
+   /* portrait styles here */
+   body {
+      background-image:url(../images/bodyBgPotrait.jpg);
+   }
+}
 .container {
 	overflow:hidden;
 }
