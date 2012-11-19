@@ -7,7 +7,11 @@
 
     <!-- versionCode is optional and Android only -->
 
-	<preference name="phonegap-version" value="2.1.0" />
+	<preference name="phonegap-version" value="2.0.0" />
+	<preference name="orientation" value="landscape" />
+	<preference name="webviewbounce" value="false" />
+	
+	
     <name>Cisco</name>
 
     <description>
@@ -18,7 +22,7 @@
         Neolinx
     </author>
 
-    <preference name="orientation" value="landscape" />
+    
     
     
       <gap:plugin name="ChildBrowser" />
