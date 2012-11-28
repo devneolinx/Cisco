@@ -37,6 +37,26 @@
                 }
             }
         },
+        _captureCardClicked: function(s, e){
+        	navigator.camera.getPicture( $.proxy(this._cameraSuccess, this), $.proxy(this._cameraError, this), {quality : 75, 
+        			  destinationType : Camera.DestinationType.DATA_FILE });
+        },
+        _cameraSuccess: function(imageUri){
+        	console.log("camera success: " + imageUri);        	
+        	filesystemHelper.getFile(imageUri, function(file){
+        		console.log("got image file");
+        		setTimeout(function(){
+	        		file.moveTo("Cisco/pictures/capturedImage.jpeg", function(){
+	        			alert("Image saved.")
+	        		});
+        		},200);
+        	}, true, true)
+        },
+        _cameraError: function(message){
+        	setTimeout(function(){
+        		alert("Failed: " + message);
+        	}, 10);
+        },
         //destructor
         destroy: function () {
             $.Widget.prototype.destroy.call(this);

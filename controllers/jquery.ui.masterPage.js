@@ -3,7 +3,8 @@
     $.widget("ui.masterPage", $.ui.mainController, {
         //defaul options
         options: {
-            model: null //model needed by this controller/view            
+            model: null, //model needed by this controller/view            
+            pushInHistoryStack: false
         },
         //constructor
         _create: function () {

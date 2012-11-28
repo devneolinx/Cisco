@@ -13,7 +13,7 @@
             if (curQuestionIndex == -1) {
                 curQuestionIndex = 0;
                 survey = masterPageController._survey;
-                //this.showCurQuestion();
+                //this.showNextQuestion();
             }
 
         },
@@ -26,21 +26,21 @@
             }
 
             /*$(".resources a.video", this.element).fancybox({
-                padding: 0,
-                width: '100%',
-                autosize: true,
-                'type': 'ajax'
+            padding: 0,
+            width: '100%',
+            autosize: true,
+            'type': 'ajax'
             });*/
         },
         //destructor
         destroy: function () {
             $.Widget.prototype.destroy.call(this);
         },
-        showCurQuestion: function (dir) {
-            var curQuesion = survey.questions[curQuestionIndex];
+        showNextQuestion: function () {
+            var curQuesion = survey.questions[this._nextQuestionIndex];
             var type = curQuesion.type.substring(0, 1).toLowerCase() + curQuesion.type.substring(1);
             //type = "multiSelect";
-            this.navigateTo(type, curQuesion, dir);
+            this.navigateTo(type, curQuesion);
         },
         getCurQuestion: function () {
             return survey.questions[curQuestionIndex];
@@ -48,9 +48,9 @@
         //override
         onNext: function (arg) {
             var me = this;
-            curQuestionIndex++;
-            if (curQuestionIndex >= survey.questions.length) {
-                curQuestionIndex = survey.questions.length - 1;
+            this._nextQuestionIndex = this._getNextQuestionIndex();
+            if (this._nextQuestionIndex >= survey.questions.length) {
+                this._nextQuestionIndex = survey.questions.length - 1;
                 //console.log(me.getSurveyResponse());
                 if (isPhoneGap) {
                     filesystemHelper.getFile("Cisco/result.txt", function (file) {
@@ -72,7 +72,7 @@
                 this.navigateTo("thankYou", this.options.model);
             }
             else {
-                this.showCurQuestion("forward");
+                this.showNextQuestion();
             }
         },
         getSurveyResponse: function () {
@@ -93,17 +93,74 @@
 
         },
         onPrev: function (arg) {
-            curQuestionIndex--;
+            /*curQuestionIndex--;
             if (curQuestionIndex < 0) {
-                curQuestionIndex = 0;
-                alert("can't go back");
+            curQuestionIndex = 0;
+            alert("can't go back");
             }
             else {
-                this.showCurQuestion("backward");
+            this.showNextQuestion("backward");
+            }*/
+            this.goBack();
+        },
+        _getNextQuestionIndex: function () {
+            var curQuesion = survey.questions[curQuestionIndex];
+            var answers = curQuesion.answers;
+            for (var i = 0; i < curQuesion.logics.length; i++) {
+                var logic = curQuesion.logics[i];
+                if (this._checkLogic(answers, logic)) {
+                    return logic.jumpTo * 1;
+                }
+            }
+            return (curQuestionIndex + 1);
+        },
+        _checkLogic: function (answers, logic) {
+            var logicPassed = false;
+            for (var i = 0; i < logic.conditions.length; i++) {
+                var condition = logic.conditions[i];
+                var meetsCondition = this._checkCondition(answers, condition);
+                if (i == 0) {
+                    logicPassed = meetsCondition;
+                }
+                else {
+                    logicPassed = this._joinConditions(logicPassed, meetsCondition, condition.groupLogic);
+                }
+            }
+            return logicPassed;
+        },
+        _checkCondition: function (answers, condition) {
+            if (!answers) {
+                return false;
+            }
+            var indx = this._getAnswerIndexById(answers, condition.value * 1);
+            var hasValue = (indx != -1);
+            if (condition.operator == "isNot") {
+                return !hasValue;
+            }
+            else {
+                return hasValue;
             }
         },
+        _joinConditions: function (accResult, curResult, op) {
+            if (op == "and") {
+                return accResult && curResult;
+            }
+            else {
+                return accResult || curResult;
+            }
+        },
+        _getAnswerIndexById: function (array, id) {
+            var indx = -1;
+            for (var i = 0; i < array.length; i++) {
+                if (array[i].optionId == id) {
+                    indx = i;
+                    break;
+                }
+            }
+            return indx;
+        },
         _getClassForType: function (type, parentArray, index) {
-            return (type );
+            return (type);
         },
         _getResourceDisplay: function (resources, parent, index) {
             var display = "none";
@@ -119,9 +176,19 @@
             var path = localStorage[baseServerPath + $(sender).attr("href")];
             //alert(path);
             window.plugins.childBrowser.showWebPage(path);
-
-        }
-
+        },
+        _onNavigationComplete: function (navInfo) {
+            if (navInfo.savedData) {
+                curQuestionIndex = navInfo.savedData.curQuestionIndex;
+            }
+        },
+        _onSaveData: function () {
+            var savedData = {};
+            savedData.curQuestionIndex = curQuestionIndex;
+            curQuestionIndex = this._nextQuestionIndex;
+            return savedData;
+        },
+        _nextQuestionIndex: -1
 
     });
 })(jQuery);

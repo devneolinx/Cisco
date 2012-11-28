@@ -30,12 +30,12 @@
                 fileSystemStatus = 1;
             }
 
-    this.getFile = function (fileName, callback, readonly) {
+    this.getFile = function (fileName, callback, readonly, isFullUrl) {
         var me = this;
         //console.log("on get file");
         if (fileSystemStatus == -1) {
             window.requestFileSystem(LocalFileSystem.PERSISTENT, 0
-            , function (fs) { gotFS(fs); me.getFile(fileName, callback) }
+            , function (fs) { gotFS(fs); me.getFile(fileName, callback,readonly, isFullUrl) }
             , function () {
                 var func = failCB('requestFileSystem');
                 func();
@@ -47,7 +47,7 @@
         }
         else {
         	if(!allFiles[fileName]){
-	            filesQue.push({ fileName: fileName, callback: callback });
+	            filesQue.push({ fileName: fileName, callback: callback, isFullUrl:isFullUrl});
 	            var funcPoll = function () {
 	                if (fileSystemStatus == 0) {
 	                    setTimeout(funcPoll, 100);
@@ -57,7 +57,7 @@
 	                        while (filesQue.length > 0) {
 	                            var fileItem = filesQue.splice(0, 1)[0];
 	                            if (fileItem.callback) {
-	                            	var newFile = new File(fileItem.fileName, readonly, fileItem.callback);
+	                            	var newFile = new File(fileItem.fileName, readonly, fileItem.callback, fileItem.isFullUrl);
 	                            	newFile.getFile();
 	                                //fileItem.callback(newFile)
 	                            }
@@ -81,15 +81,16 @@
 
     }
 
-    function File(FILENAME, readonly, callback) {
+    function File(FILENAME, readonly, callback, isFullUrl) {
         var writer = { available: false };
         var reader = { available: false }
         var entry = null;
+        var parentDir = null;
         //console.log("creating file");
         var fail = failCB('getFile');
         var me = this;
         function gotFileEntry(fileEntry) {
-            //console.log("got file entry");
+            console.log("got file entry: " + FILENAME);
             var fail = failCB('createWriter');
             entry = fileEntry;
             reader.available = true;
@@ -117,6 +118,7 @@
         	//console.log("Filepart: " + filePart);
         	if(filePart && filePart!=""){
         		if(i== fileParts.length-1){
+        			parentDir = parent;
         			parent.getFile(filePart, { create: !readonly, exclusive: false },
                             gotFileEntry, function(){
 		        				fail();
@@ -144,7 +146,53 @@
         
         this.getFile = function(){
         	me = this;
-        	createDirRecursively(0, fileSystem.root);
+        	if(isFullUrl){
+        		console.log("Is full uri: " + FILENAME);
+        		window.resolveLocalFileSystemURI(FILENAME, function(entry){
+        				console.log("Resolve success");
+        				gotFileEntry(entry);         				
+        			}, function(){
+        			console.log("Resolve failed");
+    				fail();
+    				if(callback){
+    	            	callback(null)
+    	            }
+    			})
+        	}
+        	else{
+        		createDirRecursively(0, fileSystem.root);
+        	}
+        }
+        
+        this.moveTo = function(path, callback){
+        	console.log("In moveTo");
+        	if(entry){     
+        		console.log("has entry and dest file: " + path);
+        		var newFile = new File(path, false, function(file){
+        			if(file){
+        				console.log("Dest file created");
+        				var parent = file.getParent();
+        				console.log(parent.fullPath);
+        				var fileName = file.getName();
+        				//file.deleteFile(function(deletedFile){
+        					entry.copyTo(parent, fileName ,function(movedEntry){
+		        					console.log("Move success");
+		        					callback(movedEntry);
+			        			},
+			        			function(err){
+			        				console.log("Move failed: " + err.code);
+		        					callback(file);
+			        			});	
+        				//});
+        			}
+        			else{
+        				console.log("could not create Dest file");
+        				callback(null);
+        			}
+	        	});
+        		
+        		newFile.getFile();
+        	}
         }
         
 
@@ -169,6 +217,14 @@
         this.getFullPath = function(){
         	return entry.fullPath;
         }
+        this.getName = function(){
+        	return entry.name;
+        }
+        
+        this.getParent = function(){
+        	return parentDir;
+        }
+        
         this.saveText = function (txt) {
             //console.log("on save text");
             if (writer.available) {
@@ -203,8 +259,14 @@
 
             return false;
         }
-        this.deleteFile = function(){
-        	entry.remove;
+        this.deleteFile = function(callback){
+        	entry.remove(function(entry){
+        		console.log("Deleted: " + FILENAME);
+        		callback(entry)
+        	},function(){
+        		console.log("Delete failed: " + FILENAME);
+        		callback(null);
+        	});
         	allFiles[FILENAME] = null;
         }
     }

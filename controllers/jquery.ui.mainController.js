@@ -1,11 +1,13 @@
 ﻿(function ($) {
     var curActivePage = null;
+    var historyStack = new Array();
     $.widget("ui.mainController", {
         //defaul options
         options: {
             container: ".main[data-role='MasterPage']", //container of all pages
             holder: "#dynamicContent",
-            model: null //model needed by this controller/view 
+            model: null, //model needed by this controller/view 
+            pushInHistoryStack: true
         },
         //constructor
         _create: function () {
@@ -170,12 +172,16 @@
             $.Widget.prototype.destroy.call(this);
             this._unbindEvents();
         },
-        navigateTo: function (pageName, model, direction) {
-        	//console.log("navigating to " + pageName)
+        navigateTo: function (pageName, model) {
+            //console.log("navigating to " + pageName)
             var page = this._pageHolder.find("#view_" + pageName + "[data-role='Page']")
             var me = this;
+            if (curActivePage) {
+                this._prevPageInfo = curActivePage._pageInfo;
+                this._prevPageInfo.savedData = curActivePage._onSaveData();
+            }
             if (page.length > 0) {
-                me.showPage(pageName, model, direction);
+                me.showPage(pageName, model, "forward");
             }
             else {
                 $.ajax({
@@ -183,34 +189,52 @@
                     type: "GET",
                     dataType: "text",
                     success: function (response) {
-                    	me._pageHolder.append(response);
+                        me._pageHolder.append(response);
                         //console.log("page appended")
                         var page = me._pageHolder.find("#view_" + pageName + "[data-role='Page']");
                         var widget = $.proxy(page[pageName], page);
+
                         curActivePage = widget({
                             model: model
-                        })
-                        me.showPage(pageName, model, direction);
+                        });
+                        me.showPage(pageName, model, "forward");
                     },
-                    error: function(e, msg){
-                    	console.log(msg);
+                    error: function (e, msg) {
+                        console.log(msg);
                     }
                 });
             }
         },
-        showPage: function (pageName, model, direction) {
+        goBack: function () {
+            var pageInfo = historyStack.pop();
+            if (pageInfo) {
+                this.showPage(pageInfo.page, pageInfo.model, "backward", pageInfo.savedData);
+            }
+        },
+        showPage: function (pageName, model, dir, savedData) {
             var page = this._pageHolder.find("#view_" + pageName + "[data-role='Page']");
             var widget = $.proxy(page[pageName], page);
             curActivePage = widget({
                 model: model
             }).show('fast').data(pageName);
             $("[data-role='Page']").not(page).hide('fast');
+            curActivePage._pageInfo = { page: pageName, model: model, savedData: savedData, pushInHistoryStack: curActivePage.options.pushInHistoryStack };
+            if (this._prevPageInfo && this._prevPageInfo.pushInHistoryStack && dir == "forward") {
+                historyStack.push(this._prevPageInfo);
+            }
+            curActivePage._onNavigationComplete({ direction: dir, savedData: savedData });
+
         },
         triggerCustomEvent: function (eventName, params) {
             if (curActivePage[eventName]) {
                 var evnt = $.proxy(curActivePage[eventName], curActivePage)
                 evnt(params);
             }
+        },
+        _onSaveData: function () {
+            return null;
+        },
+        _onNavigationComplete: function () {
         },
         //custom events will be implemented by subclass
         onNext: function () { },
@@ -220,7 +244,9 @@
         _container: null,
         _pageHolder: null,
         _dataBoundElementsPerLevel: null,
-        _elementsWithEvents: null
+        _elementsWithEvents: null,
+        _pageInfo: null,
+        _prevPageInfo: null
 
 
     });

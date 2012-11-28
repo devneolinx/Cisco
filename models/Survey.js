@@ -70,6 +70,25 @@
                 newQuestion.resources.push(newResource);
             });
 
+            newQuestion.logics = new Array();
+            objQ.find("logics>logic").each(function () {
+                var newLogic = {};
+                var logicNode = $(this);
+                newLogic.jumpTo = $(this).attr("jumpTo") * 1;
+                newLogic.conditions = new Array();
+                logicNode.find("conditions>condition").each(function () {
+                    var newCondition = {};
+                    var conditionNode = $(this);
+                    newCondition.groupLogic = conditionNode.attr("groupLogic");
+                    newCondition.operator = conditionNode.attr("operator");
+                    newCondition.value = conditionNode.attr("value");
+
+                    newLogic.conditions.push(newCondition);
+                });
+
+                newQuestion.logics.push(newLogic);
+            });
+
             me.questions.push(newQuestion);
 
         });
