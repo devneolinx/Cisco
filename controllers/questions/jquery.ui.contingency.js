@@ -59,7 +59,7 @@
             for (var i = 0; i < curQuestion.answers.length; i++) {
                 var curAnswer = curQuestion.answers[i];
                 if (curAnswer.optionId == option.id) {
-                    curQuestion.answers.splice(i, 1); ;
+                    curQuestion.answers.splice(i, 1);
                 }
             }
             if (atLeastOneChecked || text != "") {

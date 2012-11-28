@@ -222,6 +222,7 @@
             if (this._prevPageInfo && this._prevPageInfo.pushInHistoryStack && dir == "forward") {
                 historyStack.push(this._prevPageInfo);
             }
+            
             curActivePage._onNavigationComplete({ direction: dir, savedData: savedData });
 
         },
