@@ -71,10 +71,13 @@
 
         window.addEventListener("orientationchange", function () {
             var el = $('meta[name=viewport]');
+
             if (window.orientation == 90 || window.orientation == -90) {
                 el.attr('content', 'width=device-height');
+                alert("height Set");
             } else {
                 el.attr('content', 'width=device-width');
+                alert("width Set");
             }
         }, false);
 
