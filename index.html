@@ -68,19 +68,6 @@
         //var baseServerPath = "http://192.168.1.118/Cisco";
         var baseServerPath = "http://theneolinx.info/clients/cisco/service";
         //var baseServerPath = "http://192.168.1.110/survey";
-
-        window.addEventListener("orientationchange", function () {
-            var el = $('meta[name=viewport]');
-
-            if (window.orientation == 90 || window.orientation == -90) {
-                el.attr('content', 'width=device-height');
-                alert("height Set");
-            } else {
-                el.attr('content', 'width=device-width');
-                alert("width Set");
-            }
-        }, false);
-
         document.addEventListener("deviceready", function () {
                                  // alert("inside device ready");
             filesystemHelper = new FilesystemHelper();
@@ -99,7 +86,6 @@
                 autosize: false,
                 'type': 'ajax'
             });*/
-            
 
             if (!isPhoneGap) {
                 $(".main[data-role='MasterPage']").masterPage({});
