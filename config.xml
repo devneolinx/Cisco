@@ -3,11 +3,11 @@
         xmlns:gap = "http://phonegap.com/ns/1.0"
         id        = "com.neolinx.cisco"
         versionCode="1" 
-        version   = "1.1.0">
+        version   = "2.0.0">
 
     <!-- versionCode is optional and Android only -->
 
-	<preference name="phonegap-version" value="1.9.0" />
+	<preference name="phonegap-version" value="2.1.0" />
     <preference name="orientation" value="landscape" />
 	
 	
