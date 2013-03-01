@@ -1,4 +1,4 @@
-﻿(function ($) {
+(function ($) {
     var curQuestionIndex = -1;
     var survey = null;
     $.widget("ui.surveyQuestionBase", $.ui.mainController, {
@@ -20,17 +20,34 @@
         //called when widget is called with no parameter of only options after widget is created 
         _init: function () {
             $.ui.mainController.prototype._init.call(this);
-
+            var me = this;
             if (this.options.questionIndex > -1) {
                 curQuestionIndex = this.options.questionIndex;
             }
 
-            /*$(".resources a.video", this.element).fancybox({
-            padding: 0,
-            width: '100%',
-            autosize: true,
-            'type': 'ajax'
-            });*/
+
+            //Handle event to expand and collaspe comment
+            $("#btnComment", this.element).click(function (e) {
+                e.preventDefault();
+                if ($(this).hasClass("expandCmt")) {
+                    $("#comment", this.element).show("fast");
+                    $(this).removeClass("expandCmt").addClass("collapseCmt");
+                }
+                else {
+                    $("#comment", this.element).hide("fast");
+                    $(this).removeClass("collapseCmt").addClass("expandCmt");
+                }
+            });
+
+            
+
+        },
+        _loadComment: function () {
+            var curQuestion = survey.questions[curQuestionIndex];
+            if (curQuestion.comment && curQuestion.comment != "") {
+                $("#comment", this.element).val(curQuestion.comment);
+                $("#btnComment", this.element).click();
+            }
         },
         //destructor
         destroy: function () {
@@ -48,16 +65,22 @@
         //override
         onNext: function (arg) {
             var me = this;
+            this._collectComment();
             this._nextQuestionIndex = this._getNextQuestionIndex();
             if (this._nextQuestionIndex >= survey.questions.length) {
                 this._nextQuestionIndex = survey.questions.length - 1;
-                //console.log(me.getSurveyResponse());
+             
+             /*var save = confirm("Do you want to save your answers? To review your answers press cancel");
+             if(save){
                 if (isPhoneGap) {
                     filesystemHelper.getFile("Cisco/result.txt", function (file) {
                         if (file) {
                             var funcLoop = function () {
                                 if (file.isWriterAvailable()) {
-                                    file.saveText(JSON.stringify(survey) + ",");
+                                             survey.deviceId = ciscoDeviceId;
+                                             file.saveText(JSON.stringify(survey) + ",");
+                                    
+                                             survey.questions = [];
                                     //file.readText(function (txt) { alert(txt); });
                                 }
                                 else {
@@ -67,13 +90,32 @@
                             funcLoop();
                         }
                     });
+                }                
+                this.navigateTo("thankYou", this.options.model);
+             }*/
+                survey.deviceId = ciscoDeviceId;
+                if (isPhoneGap) {
+                    var timestamp = (new Date()) * 1;
+                    databaseHelper.execQuery('INSERT INTO RESPONSE (surveyId , email , response , status , updatedAt) VALUES (?,?,?,?,?)', [survey.id , survey.contactInfo.email, JSON.stringify(survey), 1 , timestamp], function (result, err) {
+                        if (result && result.rowsAffected) {                           
+                            databaseHelper.execQuery("select * from RESPONSE");
+                            survey.questions = [];
+                            me.navigateTo("thankYou", me.options.model);
+                        }
+                        else {
+                            alert("Some problem occured while saving response");
+                        }
+                    });
                 }
 
-                this.navigateTo("thankYou", this.options.model);
             }
             else {
                 this.showNextQuestion();
             }
+        },
+        _collectComment: function () {
+            var curQuestion = survey.questions[curQuestionIndex];
+            curQuestion.comment = $("#comment", this.element).val();
         },
         getSurveyResponse: function () {
             var respObj = {};
@@ -174,13 +216,20 @@
             //var strPath = window.location.href;
             //var path = strPath.substr(0,strPath.lastIndexOf('/')) + $(sender).attr("href");
             var path = localStorage[baseServerPath + $(sender).attr("href")];
+            var resource = $(sender).parent().data("context");
             //alert(path);
-            window.plugins.childBrowser.showWebPage(path);
+            //window.plugins.childBrowser.showWebPage(path);
+            window.plugins.childBrowser.callViewIntent(path, resource.mimeType);
         },
         _onNavigationComplete: function (navInfo) {
             if (navInfo.savedData) {
                 curQuestionIndex = navInfo.savedData.curQuestionIndex;
             }
+            else {
+                curQuestionIndex = survey.questions.indexOf(this.options.model);
+            }
+            //Load entered comment
+            this._loadComment();
         },
         _onSaveData: function () {
             var savedData = {};

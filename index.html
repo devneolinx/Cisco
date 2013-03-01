@@ -24,12 +24,12 @@
     <!--close-Jquery-ui-css-->
     <!--jquery-ui-slider-js-->
     
-     <script src="phonegap.js"></script>
-    <script src="childbrowser.js"></script> 
+    <script src="phonegap.js"></script>
+    <script src="childbrowser.js"></script>
 
     <!--close-jquery-ui-slider-js-->
     <script src="scripts/libs/jquery-1.7.2.min.js" type="text/javascript"></script>
-    <script src="scripts/libs/jquery.ui/jquery-ui-1.9.0.custom.min.js" type="text/javascript"></script>
+    <script src="scripts/libs/jquery.ui/jquery-ui-1.9.2.full.js" type="text/javascript"></script>
     <script src="scripts/libs/jquery.ui/jquery.ui.touch-punch.min.js.js" type="text/javascript"></script>
     <script type="text/javascript" src="scripts/libs/jquery.fancybox-1.3.4.pack.js"></script>
     <script type="text/javascript" src="scripts/libs/custom-form-elements.js"></script>
@@ -39,8 +39,12 @@
     <script type="text/javascript" src="scripts/libs/modernizr.foundation.js"></script>
     <script src="scripts/libs/jquery.mCustomScrollbar.js" type="text/javascript"></script>
 
+    <script src="scripts/libs/jquery.validate.min.js" type="text/javascript"></script>
+
     <script src="scripts/FilesystemHelper.js" type="text/javascript"></script>
     <script src="scripts/FiletransferHelper.js" type="text/javascript"></script>
+    <script src="scripts/DatabaseHelper.js" type="text/javascript"></script>
+
     <!--Widgets -->
     <script src="controllers/jquery.ui.mainController.js" type="text/javascript"></script>
     <script src="controllers/jquery.ui.masterPage.js" type="text/javascript"></script>
@@ -59,38 +63,47 @@
     <script src="controllers/jquery.cisco.thankYou.js" type="text/javascript"></script>
     <script src="controllers/jquery.cisco.settings.js" type="text/javascript"></script>
     <script src="controllers/jquery.cisco.loading.js" type="text/javascript"></script>
+    <script src="controllers/jquery.cisco.responseList.js" type="text/javascript"></script>
     <!--Models -->
+    <script src="models/CountryList.js" type="text/javascript"></script>
     <script src="models/Survey.js" type="text/javascript"></script>
     <script src="models/answers.js" type="text/javascript"></script>
     <script type="text/javascript">
+    
+    	/******* Global Variables*******/
         var filesystemHelper;
         var isPhoneGap = !!(window.PhoneGap || window.cordova);
+        var ciscoDeviceId = null;
+        var databaseHelper = null;
+        
+        var loadingWidget = null;
+      
+
         //var baseServerPath = "http://192.168.1.118/Cisco";
         var baseServerPath = "http://theneolinx.info/clients/cisco/service";
-        //var baseServerPath = "http://192.168.1.110/survey";
+        //var baseServerPath = "http://faircontrol.fshosting.de/cisco";
+        //var baseServerPath = "http://192.168.1.125/cisco";
+        //var baseServerPath = "http://192.168.1.113/CiscoWebService";
         document.addEventListener("deviceready", function () {
                                  // alert("inside device ready");
             filesystemHelper = new FilesystemHelper();
-            $(".main[data-role='MasterPage']").masterPage(); 
+            ciscoDeviceId = device.uuid.replace(/\-/g, "_");
+            //alert(ciscoDeviceId);
+            $(".main[data-role='MasterPage']").masterPage();
+            databaseHelper = new DatabaseHelper();
+            
             //alert(filesystemHelper);
             /*if (window.plugins.childBrowser == null) {
                 ChildBrowser.install();
             }*/
         }, false);
 
-        $(document).ready(function () {
-
-            /*$(".video").fancybox({
-                padding: 0,
-                width: '100%',
-                autosize: false,
-                'type': 'ajax'
-            });*/
-
+        $(document).ready(function () {           
+            loadingWidget = $("#loadingDiv").loading().data("loading");
+            loadingWidget.show();
             if (!isPhoneGap) {
                 $(".main[data-role='MasterPage']").masterPage({});
             }
-
         });
         
     </script>
@@ -141,47 +154,52 @@
     </div>
     <div class="panelDriver">
         <div class="comments">
-            <textarea rows="15" cols="12" name="comment"></textarea>
-            <div class="commentWrap">
-                <div class="row1 comtInfo">
-                    <div class="child_l left">
-                        <label>
-                            Assign to:</label>
-                        <input type="checkbox" name="assignTo" class="styled">
+            <form id="commentForm">
+        	    <div class="txt-area">
+	                <textarea rows="15" cols="12" name="comment"></textarea>
+                </div>
+                <div class="commentWrap ui-helper-clearfix">
+                    <div class="row1 comtInfo">
+                        <div class="child_l left">
+                            <label>
+                                Assign to:</label>
+                            <input type="checkbox" name="assignTo" class="styled">
+                        </div>
+                        <div class="middleChild left">
+                            <select data-bind="{context: 'salesmen'}">
+                                <option id="salesman{path: 'id'}" data-item>{path: 'name'}</option>                            
+                            </select>
+                        </div>
+                        <div class="child_r left">
+                            <input type="checkbox" name="telemarketingQualification" class="styled">
+                            <label>
+                                Telemarketing qualification</label>
+                        </div>
                     </div>
-                    <div class="middleChild left">
-                        <select data-bind="{context: 'salesmen'}">
-                            <option id="salesman{path: 'id'}" data-item>{path: 'name'}</option>                            
-                        </select>
-                    </div>
-                    <div class="child_r left">
-                        <input type="checkbox" name="telemarketingQualification" class="styled">
-                        <label>
-                            Telemarketing qualification</label>
+                    <div class="row2">
+                        <div class="control_cols">
+                            <input type="text" id="optInEmail" name="email" placeholder="Your Email">
+                            <label id="optInError" for="email" generated="true" class="error" style="display:none">Please enter a valid email.</label>
+                        </div>
+                        <div class="control_cols_xlarge">
+                            <input type="checkbox" id="receiveEmail" name="receiveEmail" class="styled">
+                            <label>
+                                Yes, I would like to receive further infotmation from Cisco per email</label>
+                        </div>
+                        <div class="control_cols_xlarge">
+                            <a href="#" class="okBtn">Ok</a>
+                        </div>
                     </div>
                 </div>
-                <div class="row2">
-                    <div class="control_cols">
-                        <input type="text" name="email" placeholder="Your eMail" required>
-                    </div>
-                    <div class="control_cols_xlarge">
-                        <input type="checkbox" name="receiveEmail" class="styled">
-                        <label>
-                            Yes, I would like to receive further infotmation from Cisco per email</label>
-                    </div>
-                    <div class="control_cols_xlarge">
-                        <a href="#" class="okBtn">Ok</a>
-                    </div>
-                </div>
-            </div>
+            </form>
             <a href="#" class="rightPanel active_r">&nbsp;</a>
         </div>
         
     </div>   
     <div id="loadingDiv" class="loadingBg">
     	<div class="loading"></div>
-        <div class="">Please wait...</div>
-        <!-- <div class="">0%</div> -->
+        <div class="loadingText">Please wait...</div>
+        <div class="progress"></div>
     </div>
 </body>
 </html>

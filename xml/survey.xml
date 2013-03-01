@@ -1,0 +1,202 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<survey id="1">
+  <salesmen>
+    <salesman id="1">
+      <name>Salesman 1</name>
+    </salesman>
+    <salesman id="2">
+      <name>Salesman 2</name>
+    </salesman>
+    <salesman id="3">
+      <name>Salesman 3</name>
+    </salesman>
+    <salesman id="4">
+      <name>Salesman 4</name>
+    </salesman>
+  </salesmen>
+  <questions>
+    <question id="1">
+      <type>SingleSelect</type>
+      <text>What is your company's industry?</text>
+      <options>
+        <option id="1">Aerospace</option>
+        <option id="2">Agriculture</option>
+        <option id="3">Automotive</option>
+        <option id="4">Banking - Investment</option>
+        <option id="5">Banking - Retail</option>
+        <option id="6">Business &amp; Professional Services</option>
+        <option id="7">Chemicals &amp; Pharmaceutical</option>
+        <option id="8">Defence</option>
+        <option id="9">Education</option>
+        <option id="10">Engineering &amp; Construction</option>
+        <option id="11">Environment</option>
+        <option id="12">Food, Beverages, Tobacco</option>
+        <option id="13">Government - Central</option>
+        <option id="14">Government - Local</option>
+        <option id="15">Healthcare</option>
+        <option id="16">IT (incl. Hardware &amp; Software)</option>
+        <option id="17">Insurance &amp; Financial Services</option>
+        <option id="18">Logistics &amp; Distribution</option>
+        <option id="19">Manufacturing</option>
+        <option id="20">Media, Publishing &amp; Entertainment</option>
+        <option id="21">Non Profit</option>
+        <option id="22">Retail</option>
+        <option id="23">Service Provider</option>
+        <option id="24">Telecommunications</option>
+        <option id="25">Travel &amp; Tourism</option>
+        <option id="26">Utilities &amp; Energy</option>
+        <option id="27" type="other">Other</option>
+      </options>
+    </question>
+
+    <question id="2">
+      <type>SingleSelect</type>
+      <text>How many employees are in your company?</text>
+      <options>
+        <option id="1">1-4</option>
+        <option id="2">5-19</option>
+        <option id="3">20-49</option>
+        <option id="4">50-99</option>
+        <option id="5">100-249</option>
+        <option id="6">250-499</option>
+        <option id="7">500-999</option>
+        <option id="8">1,000-4,999</option>
+        <option id="9">5,000-9,999</option>
+        <option id="10">10,000+</option>
+
+      </options>
+    </question>
+
+    <question id="3">
+      <type>SingleSelect</type>
+      <text>How many sites / offices does your company have in your country?</text>
+      <options>
+        <option id="1">1-4</option>
+        <option id="2">5-9</option>
+        <option id="3">10-20</option>
+        <option id="4">>20</option>
+      </options>
+    </question>
+
+    <question id="4">
+      <type>SingleSelect</type>
+      <text>What is your relationship with Cisco?</text>
+      <options>
+        <option id="1">Consultant/Contractor</option>
+        <option id="2">Distributor</option>
+        <option id="3">End User</option>
+        <option id="4">ISP/SP/ASP</option>
+        <option id="5">Integrator</option>
+        <option id="6">Networking Academy</option>
+        <option id="7">OEM</option>
+        <option id="8">Partner</option>
+        <option id="9">Reseller</option>
+        <option id="10">Training Partner</option>
+        <option id="11">None</option>
+        <option id="12" type="other">Other</option>
+      </options>      
+    </question>
+
+    <question id="5">
+      <type>SingleSelect</type>
+      <text>
+        What is your role in purchasing solutions?
+      </text>
+      <options>
+        <option id="1">Some/Major influence</option>
+        <option id="2">Setting network policy</option>
+        <option id="3">Technical Evaluation</option>
+        <option id="4">None of the above / End user</option>
+      </options>
+    </question>
+
+    <question id="6">
+      <type>SingleSelect</type>
+      <text>Do you have a preferred partner?</text>
+      <options>
+        <option id="1">Don't Know</option>
+        <option id="2">no</option>
+        <option id="3" type="other">yes</option>
+      </options>
+    </question>
+
+    <question id="7">
+      <type>contingency</type>
+      <subType>MultiSelect</subType>
+      <text>What is your current area of interest? / What topics would you like to get more information on?</text>
+      <options>
+        <option id="1" type="other">Solution 1</option>
+        <option id="2" type="other">Solution 2</option>
+        <option id="3" type="other">Solution 3</option>
+        <option id="4" type="other">Solution 4</option>
+      </options>
+      <options type="horizontal">
+        <option id="1">Intrest</option>
+        <option id="2">SendInfo</option>
+      </options>
+    </question>
+
+    <question id="8">
+      <type>SingleSelect</type>
+      <text>Do you have a timeframe for purchasing new solutions?</text>
+      <options>
+        <option id="1">0-3 months</option>
+        <option id="2">4-6 months</option>
+        <option id="3">7-12 months</option>
+        <option id="4">over 12 months</option>
+        <option id="5">unknown</option>
+        <option id="6">no plans to purchase</option>
+      </options>
+    </question>
+
+    <question id="9">
+      <type>MultiSelect</type>
+      <text>
+        What are your current requirements / requests?
+      </text>
+      <options>
+        <option id="1" type="other">Information</option>
+        <option id="2" type="other">Consulting</option>
+        <option id="3" type="other">Sales Call</option>
+        <option id="4" type="other">Meeting</option>
+        <option id="5" type="other">Proposal</option>        
+      </options>
+    </question>
+
+    <question id="10">
+      <type>SingleSelect</type>
+      <text>Follow-up urgency:</text>
+      <options>
+        <option id="1">immediate</option>
+        <option id="2">within 4 weeks</option>
+        <option id="3">after 4 weeks</option>
+      </options>
+    </question>
+
+    <question id="11">
+      <type>MultiSelect</type>
+      <text>
+        How may we contact you?
+      </text>
+      <options>        
+        <option id="1">Any communication methods</option>
+        <option id="2">Email</option>
+        <option id="3">Fax</option>
+        <option id="4">Phone</option>
+        <option id="5">Post</option>
+        <option id="6">SMS</option>        
+      </options>
+    </question>
+
+    <question id="12">
+      <type>SingleSelect</type>
+      <text>Assign to:</text>
+      <options>
+        <option id="1">Sales</option>
+        <option id="2">Call center</option>
+        <option id="3">No follow-up (database only)</option>
+        <option id="4">To be defined</option>
+      </options>
+    </question>
+  </questions>
+</survey>

@@ -3,13 +3,23 @@
             	<h2 id="question" data-bind="{context: 'this'}">{path: 'text'}</h2>
                 <div class="twelve columns scrollCnt">
                 	<div data-bind="{context:'options'}" class="wrapCol">
-                    	<div data-item>
+                    	<div data-item class="comm-background" data-events="{click: '_optionClicked'}">
 		                  	<input type="radio" id="rd{path: 'id'}" data-events="{change: '_checkChanged'}" name="singleSelect" class="styled" />
 		                    <label for="enterprice">{path:'text'}</label>
                             <input class="textArea" type="text" id="txt{path: 'id'}" data-events="{change: '_textChanged'}" style="display:{path: 'type', func: '_getOtherDisplay'}" disabled="disabled"/>
                         </div>                        
                     </div>
                  </div>
+            </div>
+            <div class="row">
+                <div class="two columns">
+                    <a id="btnComment" href="#" class="button left comment expandCmt">Comment&nbsp;&nbsp;</a>
+                    
+                </div>
+                <div class="ten columns">
+                    <textarea id="comment" rows="4" style="display:none"></textarea>
+                </div>
+                
             </div>
 	        <div class="row">
         	<div class="twelve columns">

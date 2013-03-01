@@ -13,7 +13,7 @@
             var buttons = $(".commonBtnWrap", this.element);
             var height = buttons.offset().top - this._container.offset().top;
             $(this._pageHolder, this.element).height(height);
-            $("#loadingDiv").loading();            
+            //loadingWidget = $("#loadingDiv").loading().data("loading");            
             var me = this;
             var survey = new Survey();
             if(isPhoneGap)
@@ -32,11 +32,13 @@
 		                        model: survey
 		                    });
 		                    me.navigateTo("contact", survey);
+		                    loadingWidget.hide();
 		                
 		                }, file.getFullPath());
 	                }
 	                else{	            	
-	            	    me.navigateTo("settings", survey);
+	                    me.navigateTo("settings", survey);
+	                    loadingWidget.hide();
 	                }
                 }, true);
             }
@@ -51,10 +53,11 @@
 		                    $(".panelDriver div.comments").comment({
 		                        model: survey
 		                    });
-		                  
+		                    this.navigateTo("contact", survey);
+		                    loadingWidget.hide();
 		                
-		          }, "xml/survey_real.xml");
-                this.navigateTo("contact", survey);
+		          }, "xml/survey.xml");
+                
             }
 
 

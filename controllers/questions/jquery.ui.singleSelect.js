@@ -35,6 +35,14 @@
                 $("input:text", item).focus();
             }
         },
+        _optionClicked: function (sender, e) {
+            $(":radio", sender).each(function () {
+                if (!this.checked) {
+                    this.checked = true;
+                    $(this).change();
+                }
+            });
+        },
         _textChanged: function (sender, e) {
             this._setAnswer($(sender).parent("[data-item]"));
         },

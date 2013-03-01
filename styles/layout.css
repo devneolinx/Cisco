@@ -16,6 +16,7 @@ body {
 	background-image:url(../images/bodyBg.jpg);
 	background-repeat:no-repeat;
 	background-position:top center;
+	background-size:cover;
 	width:100%;
 	position:relative;
 }
@@ -24,7 +25,9 @@ body {
    /* portrait styles here */
    body {
       background-image:url(../images/bodyBgPotrait.jpg);
-   }
+   }   
+}
+
 }
 .container {
 	overflow:hidden;
@@ -34,9 +37,12 @@ body {
 	padding:0 0 10px 20px;
 }
 .main {
-	width:786px;
+	width:800px;
 	margin:0 auto;
 	max-width:100%;
+	/*overflow-y:auto;
+	overflow-x:hidden;
+	max-height: 460px;*/
 }
 header {
 	margin:32px 0 40px;
@@ -147,12 +153,26 @@ div.buttonWrap a  {
 	max-width:100%;
 }
 #entryForm .control_cols input[type=text].input-medium {
-	width:152px;
+	width:242px;
+	max-width:100%;
+}
+
+#entryForm .control_cols input[type=tel].input-min {
+	float:left;
+	width:80px;
+	margin:0 10px 0 0;
+	max-width:100%;
+}
+
+#entryForm .control_cols input[type=tel].input-medium {
+	width:242px;
 	max-width:100%;
 }
 
 #entryForm fieldset label.unikLable {
-	margin:9px 5px;
+	margin:2px 5px;
+	width:22px;
+	text-align:center;
 }
 .main h2 {
 	margin:0 0 38px 15px !important;
@@ -204,7 +224,7 @@ div.checkRight {
 .wrapCol {
 	margin:10px auto 0;
 	/* width:510px; */
-	width:650px;
+	width:740px;
 }
 .wrapCol div {
 	margin-bottom:18px;
@@ -444,11 +464,11 @@ comment info
 	/*height:440px;*/
 }
 
-/* #transitionHolder {
+ #transitionHolder {
 	overflow-x: hidden;
     overflow-y: auto;
 	height:440px !important;
-} */
+} 
 
 /*----------new css---*/
 .mrgTopLeft {
@@ -473,19 +493,26 @@ comment info
 }
 
 .select{
-	position: relative;
-	margin-top:10px;
-  width: 335px;
-  padding:5px 7px 5px 15px;
-  color: #404040;
-  font: 18px/21px arial,sans-serif;
-  background: #fff;
-  overflow: hidden;
-  border:none;
-  left:200px;
-  -moz-border-radius: 4px;
+	background:#f4f5f6;
+	margin-top: 0;
+		border:0;
+		padding: 7px 15px !important;
+		outline: none;
+		font: 18px Arial, sans-serif;
+		color: #a9a9a9;
+		max-width: 100%;
+		display: block;
+		-moz-border-radius: 4px;
 		-webkit-border-radius: 4px;
 		border-radius: 4px;
+		height:37px;
+		box-shadow:none;
+		margin-bottom:15px;
+}
+
+.dropDownQuestion
+{
+    left:200px;
 }
 
 .option {
@@ -494,7 +521,7 @@ comment info
 
 .wrapCol div {
 	float:left;
-	width:325px; /*----------width change--------*/
+	width:350px; /*----------width change--------*/
 }
 
 .uiSliderWidth {
@@ -574,7 +601,7 @@ comment info
 
 .loadingBg {
 	width:100%;
-	height:1024px;
+	height:786px;
 	position:absolute;
 	background:#000;
 	top:0;
@@ -587,11 +614,85 @@ comment info
 	 display: none;
 	 
 }
-
 .loading {
 	background:url(../images/loading.gif) center center no-repeat;
 	width:51px; height:51px;
 	display:block;
 	position:relative;
 	margin:auto;
+}
+form#entryForm {
+	margin:0;
+}
+span.button a {
+	padding:12px 28px 12px 10px;
+}
+a.expandCmt {
+	background:url(../images/aero-right.png) no-repeat center right;
+}
+a.collapseCmt {
+	background:url(../images/aero-left.png) no-repeat center right;
+}
+span.button {
+	text-align:left;
+}
+a#captureCard {
+	float:left;
+	margin:10px 10px 0 0;
+}
+@media (max-width: 1280px) and (min-width: 800px) and (orientation: landscape) {
+	body {
+		background-image:url(../images/bodyBg.jpg);
+		background-size:1280px 800px;
+		background-repeat:no-repeat;
+		background-position:top center;
+		width:100%;
+		position:relative;
+	}
+	#entryForm fieldset .checkboxes label, .partnerName label {
+		margin-left:33px;
+	}
+	#entryForm .control_cols input[type="text"].input-medium {
+		width:243px;
+	}
+	.comments textarea {
+		width:600px;
+		height:269px;
+	}
+	.comments textarea:focus {
+		width:600px;
+		height:269px;
+		position:fixed;
+		margin-right:0;
+	}
+	 #transitionHolder {
+		 height:490px !important;
+	 }
+}
+.error label, label.error {
+	color:#c40606 !important;
+	font-size: 12px !important;
+	position: relative;
+	top: -18px;
+	margin-bottom: -15px;
+}
+
+.btn-margin-left {
+	margin-left: 0;
+}
+
+.aero {
+	position: relative;
+	top: 15px; right: 5px;
+}
+
+.comm-background {
+	background: url(../images/tableBg.png) repeat;
+	padding:5px 10px;
+	margin-right: 20px;
+	border-radius: 4px;
+}
+
+.comm-background-padding {
+	padding: 10px !important;
 }

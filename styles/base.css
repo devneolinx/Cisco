@@ -140,7 +140,9 @@
  		color: #404040;
 	}
 	textarea {
-		min-height: 60px; }
+		min-height: 60px;
+		-webkit-appearance:none;
+	 }
 	label,
 	legend {
 		display: block;

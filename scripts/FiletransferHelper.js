@@ -1,30 +1,74 @@
 var FiletransferHelper = {};
-FiletransferHelper.uploadTextFile= function(filePath, uploadUrl, callback){
+
+FiletransferHelper.uploadTextFile = function (filePath, uploadUrl, callback){
 	var options = new FileUploadOptions();
     options.fileKey="file";
-    options.fileName="CiscoResponse.txt";
-    options.mimeType="text";    
+    //options.fileName="CiscoResponse.txt";
+    options.mimeType="text";
+    FiletransferHelper.uploadFile(filePath, uploadUrl, options, callback, false);
+}
 
+FiletransferHelper.uploadImageFile = function (filePath, uploadUrl, callback){
+	var options = new FileUploadOptions();
+    options.fileKey="file";
+    //options.fileName="CiscoResponse.txt";
+    options.mimeType="image/jpeg";
+    FiletransferHelper.uploadFile(filePath, uploadUrl, options, callback, true);
+}
+
+FiletransferHelper.uploadFile= function(filePath, uploadUrl,options, callback, isFullUrl){
+	    
+	var curFile = null;
     filesystemHelper.getFile(filePath,/*sucess*/ function(file){
-    	var fullPath = file.getFullPath();
-    	var ft = new FileTransfer();
-        ft.upload(fullPath, encodeURI(uploadUrl), win, fail, options);
-    });
+    	if(file){
+	    	var fullPath = file.getFullPath();
+	    	var ft = new FileTransfer();
+	    	console.log("File Name: " + file.getName());
+	    	console.log("Upload url: " + encodeURI(uploadUrl));
+	    	options.fileName = file.getName();
+	    	curFile = file;
+	        ft.upload(fullPath, encodeURI(uploadUrl), win, fail, options);
+    	}
+    	else{
+    		if(callback){
+    			callback(false);
+    		}
+    	}
+    }, true,  isFullUrl);
     
     
     
     function win(r) {
-    	alert("file uploaded sucessfully")
-    	if(callback){
-    		callback(true);
+    	//alert("file uploaded sucessfully");
+    	
+    	
+    	try{
+    		var response = eval("(" + r.response + ")");   
+    		console.log("response: " + r.response);
+    		if(response.result.code==200){
+    			curFile.deleteFile();
+	    		if(callback){
+	        		callback(true);	        		
+	        	}
+	    		return;
+    		}
+    		
     	}
-        console.log("Code = " + r.responseCode);
-        console.log("Response = " + r.response);
-        console.log("Sent = " + r.bytesSent);
+    	catch(ex){
+    		console.log(ex.message);
+    	}
+    	
+    	if(callback){
+    		callback(false);
+    	}
+    	
+        //console.log("Code = " + r.responseCode);
+        //console.log("Response = " + r.response);
+        //console.log("Sent = " + r.bytesSent);
     }
 
     function fail(error) {
-        alert("An error has occurred: Code = " + error.code);
+        //alert("An error has occurred: Code = " + error.code);
         if(callback){
     		callback(false);
     	}

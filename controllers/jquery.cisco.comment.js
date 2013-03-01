@@ -14,11 +14,12 @@
         _init: function () {
             $.ui.mainController.prototype._init.call(this);
             var me = this;
-            me.commentPanelDriverWidth = this.element.parent(".panelDriver").width();
+            me.commentPanelDriverWidth = this.element.parent(".panelDriver").width();          
+
             this.element.panelDraggable({
                 axis: 'x',
                 containment: [me.commentPanelDriverWidth - 650, 0, me.element.parent(".panelDriver").width(), 1200],
-                handle: 'a.rightPanel, a.okBtn',
+                handle: 'a.rightPanel',
                 drag: function () {
                     //$("div.overviewCont").css({ left: ($(this).offset().left - 650) + 'px'});
                 }
@@ -28,23 +29,51 @@
                 me.commentPanelDriverWidth = me.element.parent(".panelDriver").width();
                 //onCommentDragStop();
             });
-            $(".okBtn", this.element).bind("click.cisco", function(e){
-                e.preventDefault();
-                 var jsonObj = "{";
-                 var temp = '"#name": "#value"';
-                $("input, textarea", me.element).each(function (i) {
-                    var input = $(this);
-                    var name = input.attr("name");
-                    var val = input.val();
-                    if(i>0){
-                        jsonObj += ",\n\t";
-                    }
-                    jsonObj += temp.replace("#name", name).replace("#value", val) ;
-                    //commentInfo[name] = val;                    
 
-                });
-                jsonObj += "}";
-                me.options.model.commentInfo = eval("(" + jsonObj + ")");
+            var commentValid = false;
+
+            $("#optInEmail", me.element).change(function(e){
+                var checked = $("#receiveEmail", me.element)[0].checked;
+                var valid = true;
+                var email = this.value;
+                if(checked || email !=""){
+                    valid = /\w+@\w+\.\w+/.test(email);                    
+                }
+
+                if(valid){
+                    $("#optInError", me.element).hide();
+                }
+                else{
+                    $("#optInError", me.element).show();
+                }
+
+                commentValid = valid;
+            });
+
+            $(".okBtn", this.element).bind("click.cisco", function(e){
+                e.preventDefault();               
+                $("#optInEmail", me.element).change();
+                if(commentValid){
+                    var jsonObj = "{";
+                    var temp = '"#name": "#value"';
+                    $("input, textarea", me.element).each(function (i) {
+                        var input = $(this);
+                        var name = input.attr("name");
+                        var val = input.val();
+                        if(i>0){
+                            jsonObj += ",\n\t";
+                        }
+                        jsonObj += temp.replace("#name", name).replace("#value", val);
+                        //commentInfo[name] = val;
+                    });
+                    jsonObj += "}";
+                    me.options.model.commentInfo = eval("(" + jsonObj + ")");
+                    $("a.rightPanel", me.element).click();
+                }
+                else{
+                    
+                }
+               
             });
 
             

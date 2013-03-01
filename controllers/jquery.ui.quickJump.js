@@ -76,14 +76,24 @@
             this.navigateTo('contact', this.options.model);
         },
         _goToQuestion: function (sender, e) {
-            var qIndex = $("li", this.element).index($(sender).parent()) - 1;
-            var questions = this.options.model.questions;
-            if (qIndex >= 0 && qIndex < questions.length) {
-                var curQuestion = questions[qIndex];
-                var type = curQuestion.type.substring(0, 1).toLowerCase() + curQuestion.type.substring(1);
-                //type = "multiSelect";
-                this.navigateTo(type, curQuestion);
-            }
+             var isValid = true;
+             
+             if(this._getActivePage() && this._getActivePage()._pageInfo && this._getActivePage()._pageInfo.page == 'contact'){
+                if(!this._getActivePage().save()){
+                    isValid = false;
+                }
+             }
+             
+             if(isValid){
+             var qIndex = $("li", this.element).index($(sender).parent()) - 1;
+             var questions = this.options.model.questions;
+             if (qIndex >= 0 && qIndex < questions.length) {
+             var curQuestion = questions[qIndex];
+             var type = curQuestion.type.substring(0, 1).toLowerCase() + curQuestion.type.substring(1);
+             //type = "multiSelect";
+             this.navigateTo(type, curQuestion);
+             }
+             }
         },
         _slideChanging: function () {
             var questions = this.options.model.questions;

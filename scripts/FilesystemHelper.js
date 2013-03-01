@@ -2,7 +2,7 @@
 			var allFiles = [];
             var failCB = function (msg) {
                 return function () {
-                    alert('[FAIL] ' + msg);
+                    console.log('[FAIL] ' + msg);
                 }
             },
             fileSystem;
@@ -30,7 +30,36 @@
                 fileSystemStatus = 1;
             }
 
-    this.getFile = function (fileName, callback, readonly, isFullUrl) {
+    this.getDir = function(dirName, callback){
+    	if (fileSystemStatus == -1) {
+            window.requestFileSystem(LocalFileSystem.PERSISTENT, 0
+            , function (fs) { gotFS(fs); me.getDir(dirName, callback) }
+            , function () {
+                var func = failCB('requestFileSystem');
+                func();
+                fileSystemStatus = -1;
+                if (callback) {
+                    callback(null);
+                }
+            });
+        }
+        else {
+        	fileSystem.root.getDirectory(dirName, {create: false, exclusive: false},
+        			function(dir){
+        				callback(dir);
+        			},
+        			function(){
+        				callback(null);
+        			});
+        }
+    }
+    
+    this.getFileFromEntry = function(entry, callback, readonly){
+        var newFile = new File(entry, readonly, callback);
+        newFile.setEntry(entry);
+    }
+    
+    this.getFileFromPath = function (fileName, callback, readonly, isFullUrl) {
         var me = this;
         //console.log("on get file");
         if (fileSystemStatus == -1) {
@@ -80,6 +109,18 @@
         }
 
     }
+    
+    this.getFile = function(fileName, callback, readonly, isFullUrl){
+        if(typeof fileName =="string"){
+            //alert("string");
+            this.getFileFromPath(fileName, callback, readonly, isFullUrl);
+        }
+        else if(typeof fileName =="object"){
+            //alert("object");
+            //alert(fileName.prototype.name);
+            this.getFileFromEntry(fileName, callback, readonly);
+        }
+    }
 
     function File(FILENAME, readonly, callback, isFullUrl) {
         var writer = { available: false };
@@ -90,7 +131,6 @@
         var fail = failCB('getFile');
         var me = this;
         function gotFileEntry(fileEntry) {
-            console.log("got file entry: " + FILENAME);
             var fail = failCB('createWriter');
             entry = fileEntry;
             reader.available = true;
@@ -105,13 +145,21 @@
             }
             else{
             	if(callback){
-            		allFiles[FILENAME] = me;
-	            	callback(me)
+                    allFiles[FILENAME] = me;
+                    callback(me);                    
 	            }            	
             }
         }
+        
+        this.setEntry = function(entry){
+            gotFileEntry(entry);
+        }
+        
 
-        var fileParts = FILENAME.split("/");
+        var fileParts = {};
+        if(FILENAME && FILENAME.split){
+            fileParts = FILENAME.split("/");
+        }
         var createDirRecursively = function(i, parent){
         	
         	var filePart = fileParts[i];
@@ -148,15 +196,15 @@
         	me = this;
         	if(isFullUrl){
         		console.log("Is full uri: " + FILENAME);
-        		window.resolveLocalFileSystemURI(FILENAME, function(entry){
+                window.resolveLocalFileSystemURI(FILENAME, function(entry){
         				console.log("Resolve success");
         				gotFileEntry(entry);         				
-        			}, function(){
-        			console.log("Resolve failed");
-    				fail();
-    				if(callback){
-    	            	callback(null)
-    	            }
+        			}, function(evt){
+                      console.log("Resolve failed");
+    				  fail();
+    				  if(callback){
+    	            	 callback(null)
+    	              }
     			})
         	}
         	else{
@@ -175,13 +223,13 @@
         				console.log(parent.fullPath);
         				var fileName = file.getName();
         				//file.deleteFile(function(deletedFile){
-        					entry.copyTo(parent, fileName ,function(movedEntry){
+        					entry.moveTo(parent, fileName ,function(movedEntry){
 		        					console.log("Move success");
 		        					callback(movedEntry);
 			        			},
 			        			function(err){
 			        				console.log("Move failed: " + err.code);
-		        					callback(file);
+		        					callback(null);
 			        			});	
         				//});
         			}
@@ -231,7 +279,7 @@
                 writer.available = false;
                 writer.object.onwriteend = function (evt) {
                     writer.available = true;
-                    writer.object.seek(0);
+                    //writer.object.seek(0);
                 }
                 writer.object.write(txt);
             }
@@ -262,10 +310,14 @@
         this.deleteFile = function(callback){
         	entry.remove(function(entry){
         		console.log("Deleted: " + FILENAME);
-        		callback(entry)
+        		if(callback){
+        			callback(entry)
+        		}
         	},function(){
         		console.log("Delete failed: " + FILENAME);
-        		callback(null);
+        		if(callback){
+        			callback(null);
+        		}
         	});
         	allFiles[FILENAME] = null;
         }

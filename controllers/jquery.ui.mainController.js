@@ -189,7 +189,8 @@
                     type: "GET",
                     dataType: "text",
                     success: function (response) {
-                        me._pageHolder.append(response);
+                        var resp = $(response).css({display:"none"});
+                        me._pageHolder.append(resp);
                         //console.log("page appended")
                         var page = me._pageHolder.find("#view_" + pageName + "[data-role='Page']");
                         var widget = $.proxy(page[pageName], page);
@@ -236,6 +237,9 @@
             return null;
         },
         _onNavigationComplete: function () {
+        },
+        _getActivePage: function(){
+             return curActivePage;
         },
         //custom events will be implemented by subclass
         onNext: function () { },

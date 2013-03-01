@@ -33,7 +33,7 @@
             lastTouchX = e.pageX;
             });*/
 
-            handle.bind("mouseup.ui.panelDraggable touchend.ui.panelDraggable", function (e) {
+            handle.bind("click.ui.panelDraggable", function (e) {
                 e.preventDefault();
                 var panelDriver = me.element.parent(".panelDriver");
                 var panelWidth = panelDriver.width();

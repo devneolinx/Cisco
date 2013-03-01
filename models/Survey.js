@@ -64,6 +64,7 @@
                 var objO = $(this);
                 newResource.id = objO.attr("id") * 1;
                 newResource.type = objO.children("type").text();
+                newResource.mimeType = objO.children("mimeType").text();
                 newResource.title = objO.children("title").text();
                 newResource.name = objO.children("name").text();
                 newResource.path = objO.children("path").text();

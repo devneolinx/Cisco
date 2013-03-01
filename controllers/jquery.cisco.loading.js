@@ -6,8 +6,7 @@
         },
         //constructor
         _create: function () {
-            $.ui.mainController.prototype._create.call(this);
-            
+            $.ui.mainController.prototype._create.call(this);            
         },
         //called when widget is called with no parameter of only options after widget is created 
         _init: function () {
@@ -17,11 +16,14 @@
         destroy: function () {
             $.Widget.prototype.destroy.call(this);
         },
-        show: function(){
-        	this.element.show();
+        show: function(msg){        	
+        	if(!msg){msg="";}
+        	$(".progress", this.element).html(msg);
+        	this.element.show();        	
         },
         hide: function(){
         	this.element.hide();
-        }
+        },
+        _msgContainer: null
     });
 })(jQuery);
