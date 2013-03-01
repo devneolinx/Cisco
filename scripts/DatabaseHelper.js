@@ -1,5 +1,6 @@
 ﻿function DatabaseHelper(callback) {
     function populateDB(tx) {
+        //tx.executeSql('DROP TABLE IF EXISTS RESPONSE');
         tx.executeSql('CREATE TABLE IF NOT EXISTS RESPONSE (id INTEGER PRIMARY KEY, surveyId INT,email VARCHAR(255), response TEXT, status INT, updatedAt INT)');
         //tx.executeSql('INSERT INTO RESPONSE (surveyId , deviceId , response , status , updatedAt) VALUES (1, "device1", "This is the response 1", 1, ' + timestamp + ')');
         //tx.executeSql('INSERT INTO RESPONSE (surveyId , deviceId , response , status , updatedAt) VALUES (1, "device2", "This is the response 2", 1, ' + timestamp + ')');
