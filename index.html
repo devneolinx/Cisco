@@ -89,8 +89,10 @@
             filesystemHelper = new FilesystemHelper();
             ciscoDeviceId = device.uuid.replace(/\-/g, "_");
             //alert(ciscoDeviceId);
-            $(".main[data-role='MasterPage']").masterPage();
-            databaseHelper = new DatabaseHelper();
+            
+            databaseHelper = new DatabaseHelper(function () {
+                $(".main[data-role='MasterPage']").masterPage();
+            });
             
             //alert(filesystemHelper);
             /*if (window.plugins.childBrowser == null) {
@@ -101,6 +103,7 @@
         $(document).ready(function () {           
             loadingWidget = $("#loadingDiv").loading().data("loading");
             loadingWidget.show();
+            alert(queryObj()["id"]);
             if (!isPhoneGap) {
                 $(".main[data-role='MasterPage']").masterPage({});
             }

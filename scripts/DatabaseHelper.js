@@ -1,4 +1,4 @@
-﻿function DatabaseHelper() {
+﻿function DatabaseHelper(callback) {
     function populateDB(tx) {
         tx.executeSql('CREATE TABLE IF NOT EXISTS RESPONSE (id INTEGER PRIMARY KEY, surveyId INT,email VARCHAR(255), response TEXT, status INT, updatedAt INT)');
         //tx.executeSql('INSERT INTO RESPONSE (surveyId , deviceId , response , status , updatedAt) VALUES (1, "device1", "This is the response 1", 1, ' + timestamp + ')');
@@ -13,6 +13,9 @@
     this.isReady = false;
     function successCDB() {
         this.isReady = true;
+        if (callback) {
+            callback();
+        }
     }
     var db = window.openDatabase("CiscoSurvey", "1.0", "Cisco Survey", 20000);
     db.transaction(populateDB, errorCDB, successCDB);

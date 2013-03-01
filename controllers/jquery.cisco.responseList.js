@@ -16,6 +16,11 @@
             //masterPageController.hideBackBtn(true);
 
         },
+        _responseItemClicked: function (s, e) {
+            e.preventDefault();
+            var item = $(s).closest("li").data("context");
+            window.location = "index.html?id=" + item.id;
+        },
         onPrev: function (arg) {
             this.navigateTo("settings");
         },

@@ -1,5 +1,15 @@
 ﻿var masterPageController = null;
 (function ($) {
+    var queryObj = function () {
+        var result = {}, queryString = location.search.slice(1),
+            re = /([^&=]+)=([^&]*)/g, m;
+
+        while (m = re.exec(queryString)) {
+            result[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
+        }
+
+        return result;
+    }
     $.widget("ui.masterPage", $.ui.mainController, {
         //defaul options
         options: {
@@ -18,29 +28,43 @@
             var survey = new Survey();
             if(isPhoneGap)
             {
-                filesystemHelper.getFile("Cisco/downloads/survey.xml", function(file){
-	                if(file!=null){
-	            	    //console.log("file available");
-		                survey.loadXML(function (survey) {
-		                    me._survey = survey;
-		
-		                    $(".panelDriver div.overviewCont").quickJump({
-		                        model: survey
-		                    });
-		
-		                    $(".panelDriver div.comments").comment({
-		                        model: survey
-		                    });
-		                    me.navigateTo("contact", survey);
-		                    loadingWidget.hide();
-		                
-		                }, file.getFullPath());
-	                }
-	                else{	            	
-	                    me.navigateTo("settings", survey);
-	                    loadingWidget.hide();
-	                }
-                }, true);
+                var id = queryObj()["id"];
+                var gotSurvey = function (survey) {
+                    me._survey = survey;
+
+                    $(".panelDriver div.overviewCont").quickJump({
+                        model: survey
+                    });
+
+                    $(".panelDriver div.comments").comment({
+                        model: survey
+                    });
+                    me.navigateTo("contact", survey);
+                    loadingWidget.hide();
+
+                };
+                if (id) {
+                    databaseHelper.execQuery("select * from RESPONSE where id=?", [id], function (results, err) {
+                        if (results) {
+                            var survey = eval("(" + results.rows.item(0).response + ")");
+                            survey.editing = true;
+                            survey.databaseId = id;
+                            gotSurvey(survey);
+                        }
+                    });
+                }
+                else {
+                    filesystemHelper.getFile("Cisco/downloads/survey.xml", function (file) {
+                        if (file != null) {
+                            //console.log("file available");
+                            survey.loadXML(gotSurvey, file.getFullPath());
+                        }
+                        else {
+                            me.navigateTo("settings", survey);
+                            loadingWidget.hide();
+                        }
+                    }, true);
+                }
             }
             else{
                  survey.loadXML(function (survey) {
@@ -95,7 +119,7 @@
             else{
                 $("#btnBack", this.element).show();
             }
-        },
+        },       
         //destructor
         destroy: function () {
             $.Widget.prototype.destroy.call(this);

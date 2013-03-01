@@ -279,8 +279,10 @@
             databaseHelper.execQuery("SELECT id, email from RESPONSE", [], function (results, err) {
                 if(results){
                     var context = [];
-                    for(var i=0;i<results.rows.length; i++){
-                        context.push(results.rows.item(i));
+                    for (var i = 0; i < results.rows.length; i++) {
+                        var item = results.rows.item(i);
+                        console.log("id: " + item.id + " email: " + item.email);
+                        context.push(item);
                     }
                     me.navigateTo("responseList", context);
                     loadingWidget.hide();

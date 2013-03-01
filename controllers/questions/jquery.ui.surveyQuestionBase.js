@@ -96,7 +96,12 @@
                 survey.deviceId = ciscoDeviceId;
                 if (isPhoneGap) {
                     var timestamp = (new Date()) * 1;
-                    databaseHelper.execQuery('INSERT INTO RESPONSE (surveyId , email , response , status , updatedAt) VALUES (?,?,?,?,?)', [survey.id , survey.contactInfo.email, JSON.stringify(survey), 1 , timestamp], function (result, err) {
+                    var query = 'INSERT INTO RESPONSE (surveyId , email , response , status , updatedAt) VALUES (?,?,?,?,?)';
+                    if (survey.editing) {
+                        query = 'UPDATE RESPONSE SET surveyId =?, email=? , response=? , status=? , updatedAt=? WHERE id=' + survey.databaseId;
+                    }
+
+                    databaseHelper.execQuery(query, [survey.id, survey.contactInfo.eMail, JSON.stringify(survey), 1, timestamp], function (result, err) {
                         if (result && result.rowsAffected) {                           
                             databaseHelper.execQuery("select * from RESPONSE");
                             survey.questions = [];
