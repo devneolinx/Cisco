@@ -72,11 +72,11 @@
                                         for (var i = 0; i < results.rows.length; i++) {
                                             var resp = results.rows.item(i);
                                             saveText += ((i > 0 ? "," : "") + resp.response);
-                                            if (saveText.length > 2000) {
+                                            /*if (saveText.length > 2000) {
                                                 console.log("size limit exceeded");
                                                 file.saveText(saveText);
                                                 saveText = "";
-                                            }
+                                            }*/
                                         }
                                         saveText += "]";
                                         file.saveText(saveText);
