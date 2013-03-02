@@ -7,7 +7,7 @@
 
     <!-- versionCode is optional and Android only -->
 
-	<preference name="phonegap-version" value="2.1.0" />
+	<preference name="phonegap-version" value="2.5.0" />
     <preference name="orientation" value="portrait" />
 	
 	

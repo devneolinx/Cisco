@@ -9,7 +9,7 @@
     }
 
     function errorCDB(err) {
-        alert("Error processing SQL: " + err.code);
+        alert("Error processing SQL: " + err.code + "Message: " + err.message);
     }
     this.isReady = false;
     function successCDB() {
