@@ -206,23 +206,33 @@
             var contactInfo = this.options.model.contactInfo;
             if (contactInfo) {
                 for (var key in contactInfo) {
-                    var inp = $("[name='" + key + "']", this.element);
-                    if (inp.length > 0) {
-                        var type = inp.attr("type");
-                        if (!type) {
-                            type = inp.prop("tagName");
-                        }
-                        if (type.toLowerCase() == "checkbox" || type.toLowerCase() == "radio") {
-                            inp.filter("[value='" + contactInfo[key] + "']").each(function (i) { this.checked = true; });
-                        }
-                        else {
-                            inp.val(contactInfo[key]);
-                        }
+                    if ("imageName" == key) {
+                        var imagePath = "Cisco/pictures/" + contactInfo[key];
+                        filesystemHelper.getFile(imagePath, function (file) {
+                            file.getFullPath()
+                            $("#cardPreview").attr("src", file.getFullPath() + "?((new Date()) * 1)").show();
+                            $("#cardPreview").parent().attr("href", file.getFullPath() + "?((new Date()) * 1)");
+                        }, true);
                     }
                     else {
-                        var nonInput = $("#" + key, this.element);
-                        if (nonInput.length > 0) {
-                            nonInput.text(contactInfo[key]);
+                        var inp = $("[name='" + key + "']", this.element);
+                        if (inp.length > 0) {
+                            var type = inp.attr("type");
+                            if (!type) {
+                                type = inp.prop("tagName");
+                            }
+                            if (type.toLowerCase() == "checkbox" || type.toLowerCase() == "radio") {
+                                inp.filter("[value='" + contactInfo[key] + "']").each(function (i) { this.checked = true; });
+                            }
+                            else {
+                                inp.val(contactInfo[key]);
+                            }
+                        }
+                        else {
+                            var nonInput = $("#" + key, this.element);
+                            if (nonInput.length > 0) {
+                                nonInput.text(contactInfo[key]);
+                            }
                         }
                     }
 
@@ -235,25 +245,30 @@
             });
         },
         _cameraSuccess: function (imageUri) {
+            var me = this;
             console.log("camera success: " + imageUri);
             filesystemHelper.getFile(imageUri, function (file) {
                 console.log("got image file");
                 setTimeout(function () {
                     if (fileName == "") {
-                        fileName = "Pic_" + ciscoDeviceId + "_" + ((new Date()) * 1) + ".jpeg";
+                        if(me.options.model.contactInfo && me.options.model.contactInfo.imageName && me.options.model.contactInfo.imageName!=""){
+                            fileName = me.options.model.contactInfo.imageName;
+                        }
+                        else{
+                            fileName = "Pic_" + ciscoDeviceId + "_" + ((new Date()) * 1) + ".jpeg";
+                        }
                     }
                     var imagePath = "Cisco/pictures/" + fileName;
                     console.log(imagePath);
                     file.moveTo(imagePath, function (entity) {
                         if (entity) {
-                                alert(entity.fileName);
                             //$("#captureCard").data("CardImageName", entity.name);
                             //$("#captureCard").data("CardImageFullPath", entity.fullPath);
                             savedImageName = entity.name;
                             imageFullPath = entity.fullPath;
-                            $("#cardPreview").attr("src", entity.fullPath).show();
-                            $("#cardPreview").parent().attr("href", entity.fullPath);
-                            alert("Image saved.");
+                            $("#cardPreview").attr("src", entity.fullPath + "?" +((new Date()) * 1)).show();
+                            $("#cardPreview").parent().attr("href", entity.fullPath + "?" + ((new Date()) * 1));
+                            alert("Image saved. " + entity.fullPath);
                         }
                         else {
                             //$("#captureCard").data("CardImageName", "");
