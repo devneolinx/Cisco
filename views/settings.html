@@ -1,10 +1,14 @@
 <div id="view_settings" data-role="Page" class="twelve columns partnerName area">
         	<div class="row">
             	<h2 >Settings</h2>
+                <h4>Responses can be edited as long as they have not been sent for upload to the server. 
+Uploads need to be triggered manually by clicking "Upload responses"<br /></h4>
                 <div class="twelve columns scrollCnt">
                 	<ul>
                 		<li><a id="download" class="button download push-four" data-events="{'click': '_download'}"><img src="images/download.png" alt="" class="downloadImg" />Download Survey</a></li>
-                		<li><a id="upload" class="button download push-four" data-events="{'click': '_upload'}"><img src="images/upload.png" alt=""  class="downloadImg" />Upload Responses</a></li>
+                		<li><a id="uploadOnline" class="button download push-four" data-events="{'click': '_uploadOnline'}"><img src="images/upload.png" alt=""  class="downloadImg" />Upload Responses(Web)</a></li>
+                        <li><a id="uploadLocal" class="button download push-four" data-events="{'click': '_uploadLocal'}"><img src="images/upload.png" alt=""  class="downloadImg" />Upload Responses(Local)</a></li>                        
+                        <li><a id="changeServer" class="button download push-four" data-events="{'click': '_changeServerClicked'}"><img src="images/edit.png" alt=""  class="downloadImg" />Change Local Server</a></li>
                         <li><a id="changeResponse" class="button download push-four" data-events="{'click': '_changeResponseClicked'}"><img src="images/edit.png" alt=""  class="downloadImg" />Edit Responses</a></li>
                 	</ul>					
                  </div>

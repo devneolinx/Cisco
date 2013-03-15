@@ -10,7 +10,7 @@
     <meta charset="utf-8" />
     <!-- Set the viewport width to device width for mobile -->
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>Welcome | Cisco Collaboration Analyst and Consultant Summit 2012</title>
+    <title>Cisco Connect, Dubai</title>
     <!-- Included CSS Files (Compressed) -->
     <link rel="stylesheet" href="styles/foundation.min.css">
     <link rel="stylesheet" href="styles/base.css">
@@ -78,11 +78,14 @@
         
         var loadingWidget = null;
       
+        function getBasePath() {
+            return "http://" + localStorage.serverIp + "/cisco";
+        }
 
-        //var baseServerPath = "http://192.168.1.118/Cisco";
-        var baseServerPath = "http://theneolinx.info/clients/cisco/service";
+        //var baseServerPath = "http://192.168.1.19/CiscoWebService";
+        //var baseServerPath = "http://theneolinx.info/clients/cisco/service";
         //var baseServerPath = "http://faircontrol.fshosting.de/cisco";
-        //var baseServerPath = "http://192.168.1.125/cisco";
+        var baseServerPath = getBasePath();
         //var baseServerPath = "http://192.168.1.113/CiscoWebService";
         document.addEventListener("deviceready", function () {
                                  // alert("inside device ready");
@@ -127,10 +130,10 @@
                     </figure>
                 </div>
                 <div class="middle">
-            	    <h1>Cisco Collaboration<br> Analyst and Consultant Summit 2012</h1>
+            	    <h1>Cisco Connect</h1>
                 </div>
                 <div class="cols_r">
-            	    <p>Location, 08.08.2012</p>
+            	    <p>Location: Dubai, March 19-20, 2013</p>
                 </div>
             </header>
         </div>
@@ -186,7 +189,7 @@
                         <div class="control_cols_xlarge">
                             <input type="checkbox" id="receiveEmail" name="receiveEmail" class="styled">
                             <label>
-                                Yes, I would like to receive further infotmation from Cisco per email</label>
+                                Yes, I would like to receive further information from Cisco per email</label>
                         </div>
                         <div class="control_cols_xlarge">
                             <a href="#" class="okBtn">Ok</a>

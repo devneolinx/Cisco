@@ -696,3 +696,12 @@ a#captureCard {
 .comm-background-padding {
 	padding: 10px !important;
 }
+/*----------------------------
+------------------------------*/
+.ui-autocomplete.ui-widget-content a {
+    color:#fff;
+}
+.ui-autocomplete {
+    height:200px;
+    overflow-y:scroll;
+}

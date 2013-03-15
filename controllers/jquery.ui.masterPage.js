@@ -77,7 +77,7 @@
 		                    $(".panelDriver div.comments").comment({
 		                        model: survey
 		                    });
-		                    this.navigateTo("contact", survey);
+		                    me.navigateTo("contact", survey);
 		                    loadingWidget.hide();
 		                
 		          }, "xml/survey.xml");

@@ -9,13 +9,12 @@
                             <option class="option" value="Miss">Miss</option>
                             <option class="option" value="Mrs.">Mrs.</option>
                             <option class="option" value="Ms.">Ms.</option>
-                            <option class="option" value="Miss">Miss</option>
                             <option class="option" value="Mr.">Mr.</option>
                             <option class="option" value="Dr.">Dr.</option>                        
                      </select>                
                 </div>
                 <div class="six columns">
-                    <input type="text" name="otherTitle" placeholder="Other Title ???"/>
+                    <input type="text" name="otherTitle" placeholder="Academic title"/>
                 </div>
             </fieldset>
 
@@ -24,7 +23,7 @@
                     <input type="text" name="fname" placeholder="First Name" />
                 </div>
                 <div class="six columns">
-                    <input type="text" name="lname" placeholder="Last Name" class = "required" />
+                    <input type="text" name="lname" placeholder="Last Name" />
                 </div>
             </fieldset>
 
@@ -33,7 +32,7 @@
                     <input type="text" name="jobTitle" placeholder="Job Title" class = "fluid-width" />
                 </div>
                 <div class="six columns">
-                    <input type="text" name="companyName" placeholder="Company Name" class="fluid-width required"  />
+                    <input type="text" name="companyName" placeholder="Company Name" class="fluid-width"  />
                 </div>
             </fieldset>
 
@@ -50,16 +49,25 @@
             <fieldset>
                     <!--<input type="text" name="country" placeholder="Country" class="fluid-width" class="required" />-->
                 <div class="six columns">
-                    <input type="email" name="eMail" placeholder="eMail" class="fluid-width required email" />
+                    <input type="email" name="eMail" placeholder="Email" class="fluid-width required email" />
                 </div>
                 <div class="six columns">
-                  <select name="country" class="select">
+                  <!--<select name="country" class="select">
                      <option class="option" id="Option1" value="">Select Country...</option>                                               
-                 </select>  
+                 </select>-->  
+                    <input id="country" type="text" name="country" placeholder="Country" />
                 </div> 
             </fieldset>
             <fieldset>
-              <div class="six columns">
+                <div class="six columns">
+                    <div class="control_cols alpha omega alpha">
+                        <!--<input type="text" class="input-min" name="phone" placeholder="Phone" />-->
+                        <input type="tel" class="input-min last left" id="mobileCode" name="mobileCode" placeholder="+" />
+                        <label for="phoneNo" class="unikLable" id="mobilePrefix">-</label>
+                        <input type="tel" class="input-medium left" id="mobileNo" name="mobileNo" placeholder="Mobile"/>
+                    </div>
+                </div>
+              <div class="six columns" style="display:none">
                    <select name="country_iso" class="select">
                      <option class="option" id="Option2" value="">Select Country ISO...</option>                                               
                  </select> 
@@ -68,23 +76,13 @@
                     <div class="control_cols alpha omega alpha">
                         <!--<input type="text" class="input-min" name="phone" placeholder="Phone" />-->
                         <input type="tel" class="input-min last left" id="phoneCode" name="phoneCode" placeholder="+" />
-                        <label for="phoneNo" class="unikLable" id="phonePrefix"> -
-                        </label>
+                        <label for="phoneNo" class="unikLable" id="phonePrefix">-</label>
                         <input type="tel" class="input-medium left" id="phoneNo" name="phoneNo" placeholder="Phone"/>
                     </div>
                 </div>                
             </fieldset>
              <fieldset>
-                <div class="six columns">
-                    <div class="control_cols alpha omega alpha">
-                        <!--<input type="text" class="input-min" name="phone" placeholder="Phone" />-->
-                        <input type="tel" class="input-min last left" id="mobileCode" name="mobileCode" placeholder="+" />
-                        <label for="phoneNo" class="unikLable" id="mobilePrefix"> -
-                        </label>
-                        <input type="tel" class="input-medium left" id="mobileNo" name="mobileNo" placeholder="Mobile"/>
-                    </div>
-                </div>
-                <div class="six columns">
+                <div class="twelve columns">
                     <input type="text" name="address" placeholder="Address" class="fluid-width" />
                 </div>
             </fieldset>
@@ -99,7 +97,7 @@
         
         </form>
         	<div class="twelve columns">
-		        <a id="captureCard" href="#" data-events="{'click': '_captureCardClicked'}">Take picture of visiting card</a>
+		        <a id="captureCard" href="#" data-events="{'click': '_captureCardClicked'}">Take picture of business card</a>
 		        <a class="fancybox" rel="group" href=""><img id="cardPreview" style="width: 200px; height: 60px; display: none;"></img></a>
             </div>
     </div>

@@ -17,11 +17,12 @@
             this._prefixLookup = [];
             for (var i = 0; i < countries.length; i++) {
                 var country = countries[i];
+                country.label = country.country;
                 this._countryCodes.push({ label: "+" + country.c_code, country: country });
                 this._prefixLookup["+" + country.c_code] = country.c_prefix;
             }
 
-
+            
 
             $.validator.addMethod(
                 "phoneNo",
@@ -38,8 +39,15 @@
                 },
                 "Please enter valid country code."
             );
-
-                
+            $.validator.addMethod(
+              "requiredIfNotCard",
+              function (value, element) {
+                  var hasCard = (savedImageName && savedImageName != "") ;
+                  var hasValue = value && value != "";
+                  return hasCard || hasValue;
+              },
+              "This field is required."
+          );
 
         },
         //called when widget is called with no parameter of only options after widget is created 
@@ -48,6 +56,12 @@
             $(".fancybox", this.element).fancybox();
             Custom.init(this.element);
             var me = this;
+            var contrySelect = $("[name='country']", this.element);
+            var contryIsoSelect = $("[name='country_iso']", this.element);
+
+            var countryCode = $("#phoneCode, #mobileCode", this.element);
+            var countryPrefix = $("#phonePrefix, #mobilePrefix", this.element);
+
             $("#phoneCode, #mobileCode", this.element)
             .autocomplete({
                 source: this._countryCodes,
@@ -92,75 +106,18 @@
                 else {
                     countryPrefix.text("");
                 }
-
-
-
-
-            })
-            ;
-
-            $("#entryForm ", this.element).validate(
-            {
-                rules: {
-                    
-                    country: "required",
-                    country_iso: "required",
-                    mobileNo: "phoneNo",
-                    phoneNo: "phoneNo",
-                    phoneCode: "phoneCode",
-                    mobileCode: "phoneCode"
-                },
-                groups: {
-                    country: "country country_iso",
-                    phone: "phoneCode phoneNo",
-                    mobile: "mobileCode mobileNo"
-                },
-                errorPlacement: function (error, element) {
-                    var name = element.attr("name"); 
-                    if (name=="country"|| name=="country_iso"){
-                        error.insertAfter("[name='country_iso']");
-                    }
-                    else if (name=="phoneCode"|| name=="phoneNo"){
-                        error.insertAfter("[name='phoneNo']");
-                    }
-                    else if (name=="mobileCode"|| name=="mobileNo"){
-                        error.insertAfter("[name='mobileNo']");
-                    }
-                    else {
-                        error.insertAfter(element);
-                    }
-                }
             });
-            /*$("#entryForm #date").datepicker({
-            changeMonth: true,
-            changeYear: true
-            });*/
 
-            if (imageFullPath && imageFullPath != "") {
-                $("#cardPreview").attr("src", imageFullPath).show();
-                $("#cardPreview").parent().attr("href", imageFullPath);
-            }
-            var contrySelect = $("[name='country']", this.element);
-            var contryIsoSelect = $("[name='country_iso']", this.element);
 
-            var countryCode = $("#phoneCode, #mobileCode", this.element);
-            var countryPrefix = $("#phonePrefix, #mobilePrefix", this.element);
+            var countryChanged = function (event, ui) {
 
-            var countryChanged = function (e) {
-                var select = $(this);
-                var name = select.attr("name");
-                var country = select.find(":selected").data("country");
+                var country = ui.item;
 
                 if (!country) {
                     country = { "iso": "", "country": "", "c_code": -1, "c_prefix": 0 };
                 }
 
-                if (name == "country") {
-                    contryIsoSelect.val(country.iso);
-                }
-                else {
-                    contrySelect.val(country.country);
-                }
+                contryIsoSelect.val(country.iso);
 
 
                 countryCode.each(function () {
@@ -184,9 +141,59 @@
 
             }
 
-            contrySelect.change(countryChanged);
-            contryIsoSelect.change(countryChanged);
+            $("#country", this.element)
+            .autocomplete({
+                source: countries,
+                minLength: 0,
+                select: countryChanged
+            })
+            .focus(function (e) {
+                var val = $(this).val();
+                $(this).autocomplete("search", val);
+            });
 
+            $("#entryForm ", this.element).validate(
+            {
+                rules: {
+                    lname: "requiredIfNotCard",
+                    companyName: "requiredIfNotCard",
+                    country: "requiredIfNotCard",
+                    mobileNo: "phoneNo",
+                    phoneNo: "phoneNo",
+                    phoneCode: "phoneCode",
+                    mobileCode: "phoneCode"
+                },
+                groups: {
+                    phone: "phoneCode phoneNo",
+                    mobile: "mobileCode mobileNo"
+                },
+                errorPlacement: function (error, element) {
+                    var name = element.attr("name"); 
+                    if (name=="phoneCode"|| name=="phoneNo"){
+                        error.insertAfter("[name='phoneNo']");
+                    }
+                    else if (name=="mobileCode"|| name=="mobileNo"){
+                        error.insertAfter("[name='mobileNo']");
+                    }
+                    else {
+                        error.insertAfter(element);
+                    }
+                }
+            });
+            /*$("#entryForm #date").datepicker({
+            changeMonth: true,
+            changeYear: true
+            });*/
+
+            if (imageFullPath && imageFullPath != "") {
+                $("#cardPreview").attr("src", imageFullPath).show();
+                $("#cardPreview").parent().attr("href", imageFullPath);
+            }
+            
+
+            
+
+            
 
             for (var i = 0; i < countries.length; i++) {
                 var country = countries[i];
@@ -205,6 +212,7 @@
         _loadContact: function () {
             var contactInfo = this.options.model.contactInfo;
             if (contactInfo) {
+                savedImageName = contactInfo.imageName;
                 for (var key in contactInfo) {
                     if ("imageName" == key) {
                         var imagePath = "Cisco/pictures/" + contactInfo[key];
@@ -268,7 +276,7 @@
                             imageFullPath = entity.fullPath;
                             $("#cardPreview").attr("src", entity.fullPath + "?" +((new Date()) * 1)).show();
                             $("#cardPreview").parent().attr("href", entity.fullPath + "?" + ((new Date()) * 1));
-                            alert("Image saved. " + entity.fullPath);
+                            alert("The image has been saved successfully");
                         }
                         else {
                             //$("#captureCard").data("CardImageName", "");
@@ -292,25 +300,36 @@
         destroy: function () {
             $.Widget.prototype.destroy.call(this);
         },
-             save: function(arg){
-             var jsonObj = "{";
-             var temp = '"#name": "#value"';
-             if ($("#entryForm").valid()) {
-             $("#entryForm input:not(:checkbox, :radio), #entryForm select, #entryForm input:checked, #entryForm #mobilePrefix, #entryForm #phonePrefix", this.element).each(function (i) {                                                                                                                                                                        var input = $(this);                                                                                                                                                                                     var name = input.attr("name");                                                                                                                                                                                     var val = "";                                                                                                                                                                                     if (name && name != "") {                                                                                                                                                                                          val = input.val();                                                                                                                                                                                     }                                                                                                                                                                                     else {                                                                                                                                                                                     name = input.attr("id");                                                                                                                                                                                     val = input.text();                                                                                                                                                                                     }
-                if (i > 0) {                                                                                                                                                                                  jsonObj += ",\n\t";
-                                                                                                                                                                             }
-                                                                                                                                                                                     jsonObj += temp.replace("#name", name).replace("#value", val);
-                                                                                                                                                                                     //contactInfo[name] = val;
-                                                                                                                                                                                     });
-             
-             jsonObj += "}";
-             this.options.model.contactInfo = eval("(" + jsonObj + ")");
-             this.options.model.contactInfo.imageName = savedImageName;
-             
-             return true;
-             }
-             return false;
-             },
+        save: function (arg) {
+            var jsonObj = "{";
+            var temp = '"#name": "#value"';
+            if ($("#entryForm").valid()) {
+                $("#entryForm input:not(:checkbox, :radio), #entryForm select, #entryForm input:checked, #entryForm #mobilePrefix, #entryForm #phonePrefix", this.element).each(function (i) {
+                    var input = $(this);
+                    var name = input.attr("name");
+                    var val = "";
+                    if (name && name != "") {
+                        val = input.val();
+                    }
+                    else {
+                        name = input.attr("id");
+                        val = input.text();
+                    }
+                    if (i > 0) {
+                        jsonObj += ",\n\t";
+                    }
+                    jsonObj += temp.replace("#name", name).replace("#value", val);
+                    //contactInfo[name] = val;
+                });
+
+                jsonObj += "}";
+                this.options.model.contactInfo = eval("(" + jsonObj + ")");
+                this.options.model.contactInfo.imageName = savedImageName;
+
+                return true;
+            }
+            return false;
+        },
         //override
         onNext: function (arg) {
              if(this.save()){

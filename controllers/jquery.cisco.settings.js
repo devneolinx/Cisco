@@ -7,7 +7,6 @@
     2 = Marked for copying to file
     3 = copied to file
     4 = uploaded
-
     */
 
     $.widget("cisco.settings", $.ui.mainController, {
@@ -25,6 +24,17 @@
             $.ui.mainController.prototype._init.call(this);
             masterPageController.hideNextBtn(true);
             masterPageController.hideBackBtn(false);
+            if (!localStorage.serverIp || localStorage.serverIp == "") {
+                while (!this._changeServerIp());
+            }
+        },
+        _uploadLocal: function(){
+            this._serverPath = baseServerPath;
+            this._upload();
+        },
+        _uploadOnline: function () {
+            this._serverPath = "http://faircontrol.fshosting.de/cisco";
+            this._upload();
         },
         _upload: function (s, e) {
             var me = this;
@@ -41,7 +51,7 @@
         _uploadResponse: function () {
         	var me = this;
         	loadingWidget.show("Uploading user response...");
-            FiletransferHelper.uploadTextFile("Cisco/result.txt", baseServerPath + "/client.php?access=url.com"
+        	FiletransferHelper.uploadTextFile("Cisco/" + me._responseTxtFilename, me._serverPath + "/client.php?access=url.com"
             	, function(success){
             		if(success){
             		    console.log("Result uploaded sucessfully.");
@@ -52,7 +62,8 @@
             		else{
             			alert("Couldn't upload response to server.");
             			loadingWidget.hide();
-            			me._uploadImages();
+            			uploadInProgress = false;
+            			//me._uploadImages();
             		}
             		
             		
@@ -60,11 +71,13 @@
             
         },
         _createFile: function (callback) {
+            var me = this;
+            me._responseTxtFilename = ciscoDeviceId + "_" + ((new Date()) * 1) + ".txt";
             if (isPhoneGap) {                
                 var selectQueryExecuted = function (results, err) {
                     if (results.rows.length > 0) {
-                        loadingWidget.show("Preparing response for upload");
-                        filesystemHelper.getFile("Cisco/result.txt", function (file) {
+                        loadingWidget.show("Preparing response for upload");                        
+                        filesystemHelper.getFile("Cisco/" + me._responseTxtFilename, function (file) {
                             if (file) {
                                 var funcLoop = function () {
                                     if (file.isWriterAvailable()) {
@@ -99,7 +112,8 @@
                         });
                     }
                     else {
-                        uploadInProgress = false;
+                        //uploadInProgress = false;
+                        me._uploadImages();
                     }
 
                 };
@@ -107,7 +121,7 @@
                 var updateQueryExecuted = function () {
                     databaseHelper.execQuery("SELECT * FROM RESPONSE WHERE STATUS=2", [], selectQueryExecuted);
                 }
-                filesystemHelper.getFile("Cisco/result.txt", function (file) {
+                filesystemHelper.getFile("Cisco/" + me._responseTxtFilename, function (file) {
                     if (file) {
                         file.deleteFile();
                     }
@@ -117,7 +131,8 @@
             }
         },
         _uploadImages: function(){
-        	console.log("in uploadImages");
+            console.log("in uploadImages");
+            var me = this;
         	filesystemHelper.getDir("Cisco/pictures/", function(dirEntry){
         		console.log("got dir " + dirEntry);                                    
         		if (dirEntry != null) {
@@ -140,7 +155,7 @@
 
         		                if (entry.isFile) {
         		                    uploading++;
-        		                    FiletransferHelper.uploadImageFile(entry, baseServerPath + "/UploadCardImage.php"
+        		                    FiletransferHelper.uploadImageFile(entry, me._serverPath + "/UploadCardImage.php"
 			        	                	, function (success) {
 			        	                	    uploading--;
 			        	                	    if (success) {
@@ -191,6 +206,7 @@
         		    function fail(error) {
         		        //alert("Failed to list directory contents: " + error.code);
         		        loadingWidget.hide();
+        		        uploadInProgress = false;
         		    }
 
         		    // Get a directory reader
@@ -273,7 +289,7 @@
             download();
 
         },
-        _changeResponseClicked: function () {
+        _changeResponseClicked: function (s, e) {
             var me = this;
             loadingWidget.show();
             databaseHelper.execQuery("SELECT id, email from RESPONSE", [], function (results, err) {
@@ -289,12 +305,29 @@
                 }
             });
         },
+        _changeServerClicked: function (s, e) {
+            this._changeServerIp();
+        },
+        _changeServerIp: function () {
+            var ip = prompt("Please type ip address of local server", localStorage.serverIp?localStorage.serverIp:"");
+            if (ip != "" && /\b(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/.test(ip)) {
+                localStorage.serverIp = ip;
+                baseServerPath = getBasePath();
+                return true;
+            }
+            else {
+                alert("Invalid ip");
+                return false;
+            }
+        },
         onPrev: function (arg) {
             window.location = "index.html";
         },
         //destructor
         destroy: function () {
             $.Widget.prototype.destroy.call(this);
-        }
+        },
+        _responseTxtFilename: "",
+        _serverPath: ""
     });
 })(jQuery);

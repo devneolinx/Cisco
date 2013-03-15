@@ -3,7 +3,7 @@ var FiletransferHelper = {};
 FiletransferHelper.uploadTextFile = function (filePath, uploadUrl, callback){
 	var options = new FileUploadOptions();
     options.fileKey="file";
-    //options.fileName="CiscoResponse.txt";
+    //options.fileName = ciscoDeviceId + "_" + ((new Date()) * 1) + ".txt";
     options.mimeType="text";
     FiletransferHelper.uploadFile(filePath, uploadUrl, options, callback, false);
 }

@@ -27,14 +27,14 @@
 
 
             //Handle event to expand and collaspe comment
-            $("#btnComment", this.element).click(function (e) {
+            $("#btnComment", me.element).click(function (e) {
                 e.preventDefault();
                 if ($(this).hasClass("expandCmt")) {
-                    $("#comment", this.element).show("fast");
+                    $("#comment", me.element).show("fast");
                     $(this).removeClass("expandCmt").addClass("collapseCmt");
                 }
                 else {
-                    $("#comment", this.element).hide("fast");
+                    $("#comment", me.element).hide("fast");
                     $(this).removeClass("collapseCmt").addClass("expandCmt");
                 }
             });
@@ -93,24 +93,27 @@
                 }                
                 this.navigateTo("thankYou", this.options.model);
              }*/
-                survey.deviceId = ciscoDeviceId;
-                if (isPhoneGap) {
-                    var timestamp = (new Date()) * 1;
-                    var query = 'INSERT INTO RESPONSE (surveyId , email , response , status , updatedAt) VALUES (?,?,?,?,?)';
-                    if (survey.editing) {
-                        query = 'UPDATE RESPONSE SET surveyId =?, email=? , response=? , status=? , updatedAt=? WHERE id=' + survey.databaseId;
-                    }
+                var save = confirm("Do you want to save your answers? To review your answers press cancel");
+                if (save) {
+                    survey.deviceId = ciscoDeviceId;
+                    if (isPhoneGap) {
+                        var timestamp = (new Date()) * 1;
+                        var query = 'INSERT INTO RESPONSE (surveyId , email , response , status , updatedAt) VALUES (?,?,?,?,?)';
+                        if (survey.editing) {
+                            query = 'UPDATE RESPONSE SET surveyId =?, email=? , response=? , status=? , updatedAt=? WHERE id=' + survey.databaseId;
+                        }
 
-                    databaseHelper.execQuery(query, [survey.id, survey.contactInfo.eMail, JSON.stringify(survey), 1, timestamp], function (result, err) {
-                        if (result && result.rowsAffected) {                           
-                            databaseHelper.execQuery("select * from RESPONSE");
-                            survey.questions = [];
-                            me.navigateTo("thankYou", me.options.model);
-                        }
-                        else {
-                            alert("Some problem occured while saving response");
-                        }
-                    });
+                        databaseHelper.execQuery(query, [survey.id, survey.contactInfo.eMail, JSON.stringify(survey), 1, timestamp], function (result, err) {
+                            if (result && result.rowsAffected) {
+                                databaseHelper.execQuery("select * from RESPONSE");
+                                survey.questions = [];
+                                me.navigateTo("thankYou", me.options.model);
+                            }
+                            else {
+                                alert("Some problem occured while saving response");
+                            }
+                        });
+                    }
                 }
 
             }
